@@ -722,8 +722,8 @@ function App() {
                     transition={{ delay: index * 0.08, duration: 0.45 }}
                   >
                     <span className="about-card-index">0{index + 1}</span>
-                    <h3 className="mt-4 text-[1.1rem] font-semibold text-slate-50">{item.title}</h3>
-                    <p className="mt-3 text-sm leading-7 text-slate-300">{item.text}</p>
+                    <h3 className="font-semibold text-slate-50">{item.title}</h3>
+                    <p className="text-slate-300">{item.text}</p>
                   </motion.div>
                 ))}
               </div>
