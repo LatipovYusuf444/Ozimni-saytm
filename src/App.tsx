@@ -687,10 +687,6 @@ function App() {
                     </div>
                   </div>
                 </div>
-                <div className="about-quote">
-                  <p className="about-quote-mark">"</p>
-                  <p className="text-[1.02rem] leading-8 text-slate-200">{t.about.quote}</p>
-                </div>
               </div>
               <div className="grid gap-4">
                 {t.about.highlights.map((item, index) => (
@@ -700,6 +696,10 @@ function App() {
                     <p className="text-slate-300">{item.text}</p>
                   </motion.div>
                 ))}
+              </div>
+              <div className="about-quote">
+                <p className="about-quote-mark">"</p>
+                <p className="text-[1.02rem] leading-8 text-slate-200">{t.about.quote}</p>
               </div>
             </div>
           </div>
