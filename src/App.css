@@ -28,6 +28,7 @@
   pointer-events: none;
   z-index: 0;
   opacity: 0.24;
+  will-change: left, top;
   transition:
     left 220ms ease-out,
     top 220ms ease-out;
@@ -40,6 +41,7 @@
   pointer-events: none;
   opacity: 0.92;
   mix-blend-mode: screen;
+  contain: strict;
 }
 
 .hero-canvas::after {
@@ -50,6 +52,16 @@
     radial-gradient(circle at 18% 22%, rgba(56, 189, 248, 0.1), transparent 22%),
     radial-gradient(circle at 74% 36%, rgba(245, 190, 92, 0.12), transparent 18%),
     linear-gradient(180deg, rgba(3, 8, 18, 0.08), rgba(3, 8, 18, 0.42));
+}
+
+@media (max-width: 900px), (pointer: coarse), (prefers-reduced-motion: reduce) {
+  .pointer-glow {
+    display: none;
+  }
+
+  .hero-canvas {
+    opacity: 0.56;
+  }
 }
 
 .glass-panel {
@@ -827,6 +839,127 @@
   @apply rounded-[2rem] bg-[rgba(15,23,42,0.46)] p-7 shadow-[0_24px_70px_-45px_rgba(2,6,23,0.9)] backdrop-blur-2xl;
 }
 
+.journey-shell {
+  @apply overflow-hidden rounded-[2.2rem] border border-sky-200/10 bg-[linear-gradient(180deg,rgba(15,23,42,0.56),rgba(15,23,42,0.28))] p-8 shadow-[0_30px_90px_-50px_rgba(2,6,23,0.95)] backdrop-blur-2xl lg:p-10;
+}
+
+.journey-grid {
+  @apply mt-10 grid gap-6;
+}
+
+.journey-row {
+  display: grid;
+  gap: 1.25rem;
+  align-items: stretch;
+}
+
+.journey-copy,
+.journey-visual {
+  @apply rounded-[1.8rem] border border-white/10 bg-[rgba(255,255,255,0.05)] p-6 backdrop-blur-2xl;
+}
+
+.journey-copy {
+  position: relative;
+  overflow: hidden;
+}
+
+.journey-copy::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 1.5rem;
+  bottom: 1.5rem;
+  width: 3px;
+  border-radius: 9999px;
+  background: linear-gradient(180deg, rgba(250, 204, 21, 0.95), rgba(96, 165, 250, 0.38));
+}
+
+.journey-point {
+  @apply pl-5 text-[0.78rem] font-semibold uppercase tracking-[0.28em] text-amber-300;
+}
+
+.journey-title {
+  @apply mt-3 pl-5 text-[1.55rem] font-semibold tracking-[-0.03em] text-slate-50 sm:text-[1.85rem];
+}
+
+.journey-text,
+.journey-result {
+  @apply pl-5 text-[0.98rem] leading-8 text-slate-300;
+}
+
+.journey-result {
+  @apply mt-4 text-slate-200;
+}
+
+.journey-visual {
+  position: relative;
+  min-height: 16rem;
+  overflow: hidden;
+}
+
+.journey-visual-glow {
+  position: absolute;
+  left: -2rem;
+  bottom: -2rem;
+  width: 12rem;
+  height: 12rem;
+  border-radius: 9999px;
+  background: radial-gradient(circle, rgba(96, 165, 250, 0.26), transparent 70%);
+  filter: blur(14px);
+}
+
+.journey-badges {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem;
+  align-content: center;
+  justify-content: center;
+  min-height: 100%;
+}
+
+.journey-badge {
+  @apply inline-flex flex-col items-center justify-center rounded-[1.4rem] px-5 py-4 text-sm font-bold uppercase tracking-[0.16em] text-slate-50 shadow-[0_18px_38px_-24px_rgba(2,6,23,0.85)];
+  min-width: 7.4rem;
+  min-height: 5.2rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(18px);
+}
+
+.journey-badge-icon {
+  display: inline-flex;
+  width: 2rem;
+  height: 2rem;
+  margin-bottom: 0.6rem;
+}
+
+.journey-badge-icon svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.journey-badge-text {
+  line-height: 1;
+}
+
+.journey-badge--1 {
+  background: linear-gradient(180deg, rgba(249, 115, 22, 0.92), rgba(194, 65, 12, 0.82));
+}
+
+.journey-badge--2 {
+  background: linear-gradient(180deg, rgba(59, 130, 246, 0.92), rgba(29, 78, 216, 0.82));
+}
+
+.journey-badge--3 {
+  background: linear-gradient(180deg, rgba(236, 72, 153, 0.88), rgba(157, 23, 77, 0.8));
+}
+
+.journey-badge--4 {
+  background: linear-gradient(180deg, rgba(15, 23, 42, 0.92), rgba(30, 41, 59, 0.82));
+}
+
 .service-icon {
   @apply flex h-14 w-14 items-center justify-center rounded-2xl bg-[rgba(219,234,254,0.08)] text-slate-50 shadow-lg backdrop-blur;
 }
@@ -875,6 +1008,7 @@
 .glass-panel,
 .hero-profile-shell,
 .about-shell,
+.journey-shell,
 .project-card,
 .service-card,
 .article-card {
@@ -892,6 +1026,8 @@
 .hero-company-card,
 .about-card,
 .about-quote,
+.journey-copy,
+.journey-visual,
 .stack-pill,
 .contact-chip,
 .contact-row,
@@ -1099,9 +1235,42 @@ button,
   .photo-card-large {
     min-height: 21rem;
   }
+
+  .journey-badge {
+    min-width: 6rem;
+    min-height: 4rem;
+    padding: 0.95rem 1rem;
+    font-size: 0.78rem;
+  }
+
+  .journey-badge-icon {
+    width: 1.7rem;
+    height: 1.7rem;
+    margin-bottom: 0.45rem;
+  }
 }
 
 @media (min-width: 1024px) {
+  .journey-row {
+    grid-template-columns: minmax(0, 1.08fr) minmax(18rem, 0.92fr);
+  }
+
+  .journey-row--reverse {
+    grid-template-columns: minmax(18rem, 0.92fr) minmax(0, 1.08fr);
+  }
+
+  .journey-row--reverse .journey-copy {
+    order: 2;
+  }
+
+  .journey-row--reverse .journey-visual {
+    order: 1;
+  }
+
+  .journey-row--reverse .journey-badges {
+    justify-content: flex-start;
+  }
+
   .mobile-menu-overlay,
   .mobile-menu-drawer {
     display: none;
