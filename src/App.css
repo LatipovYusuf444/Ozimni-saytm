@@ -839,6 +839,115 @@
   @apply rounded-[2rem] bg-[rgba(15,23,42,0.46)] p-7 shadow-[0_24px_70px_-45px_rgba(2,6,23,0.9)] backdrop-blur-2xl;
 }
 
+.case-study-shell {
+  @apply overflow-hidden rounded-[2.2rem] border border-sky-200/10 bg-[linear-gradient(180deg,rgba(15,23,42,0.6),rgba(15,23,42,0.3))] p-8 shadow-[0_30px_90px_-50px_rgba(2,6,23,0.95)] backdrop-blur-2xl lg:p-10;
+}
+
+.case-study-header {
+  @apply grid gap-4 lg:grid-cols-[0.9fr_1.1fr] lg:items-end;
+}
+
+.case-study-header__text {
+  @apply max-w-2xl leading-7 text-slate-300 lg:justify-self-end;
+}
+
+.case-study-grid {
+  @apply mt-10 grid gap-6 lg:grid-cols-[1.12fr_0.88fr];
+}
+
+.case-study-feature,
+.case-study-card,
+.case-study-metric {
+  @apply rounded-[1.8rem] border border-white/10 bg-[rgba(255,255,255,0.05)] backdrop-blur-2xl;
+}
+
+.case-study-feature {
+  overflow: hidden;
+}
+
+.case-study-feature__visual {
+  position: relative;
+  min-height: 18rem;
+}
+
+.case-study-feature__visual img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.case-study-feature__overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(2, 6, 23, 0.04) 0%, rgba(2, 6, 23, 0.56) 100%),
+    linear-gradient(135deg, rgba(15, 23, 42, 0.08), transparent 55%);
+}
+
+.case-study-feature__tags {
+  @apply absolute left-5 top-5 z-10 flex flex-wrap gap-2;
+}
+
+.case-study-feature__tags span {
+  @apply rounded-full border border-white/15 bg-white/10 px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.2em] text-white;
+}
+
+.case-study-feature__content {
+  @apply p-6;
+}
+
+.case-study-feature__label {
+  @apply text-[0.78rem] font-semibold uppercase tracking-[0.28em] text-amber-300;
+}
+
+.case-study-feature__title {
+  @apply mt-3 text-[1.45rem] font-semibold leading-[1.12] tracking-[-0.03em] text-slate-50 sm:text-[1.8rem];
+}
+
+.case-study-feature__text {
+  @apply mt-4 max-w-2xl leading-8 text-slate-300;
+}
+
+.case-study-side {
+  @apply grid gap-6;
+}
+
+.case-study-metrics {
+  @apply grid gap-4 sm:grid-cols-3 lg:grid-cols-1;
+}
+
+.case-study-metric {
+  @apply p-5;
+}
+
+.case-study-metric__value {
+  @apply text-[1.2rem] font-semibold tracking-[-0.03em] text-slate-50;
+}
+
+.case-study-metric__label {
+  @apply mt-2 text-sm text-slate-300;
+}
+
+.case-study-cards {
+  @apply grid gap-4;
+}
+
+.case-study-card {
+  @apply p-6;
+}
+
+.case-study-card__step {
+  @apply inline-flex rounded-full border border-sky-200/10 bg-[rgba(219,234,254,0.08)] px-3 py-1 text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-sky-200;
+}
+
+.case-study-card__title {
+  @apply mt-4 text-[1.15rem] font-semibold text-slate-50;
+}
+
+.case-study-card__text {
+  @apply mt-3 leading-7 text-slate-300;
+}
+
 .journey-shell {
   @apply overflow-hidden rounded-[2.2rem] border border-sky-200/10 bg-[linear-gradient(180deg,rgba(15,23,42,0.56),rgba(15,23,42,0.28))] p-8 shadow-[0_30px_90px_-50px_rgba(2,6,23,0.95)] backdrop-blur-2xl lg:p-10;
 }
@@ -1008,6 +1117,7 @@
 .glass-panel,
 .hero-profile-shell,
 .about-shell,
+.case-study-shell,
 .journey-shell,
 .project-card,
 .service-card,
@@ -1026,6 +1136,9 @@
 .hero-company-card,
 .about-card,
 .about-quote,
+.case-study-feature,
+.case-study-card,
+.case-study-metric,
 .journey-copy,
 .journey-visual,
 .stack-pill,
@@ -1247,6 +1360,10 @@ button,
     width: 1.7rem;
     height: 1.7rem;
     margin-bottom: 0.45rem;
+  }
+
+  .case-study-feature__visual {
+    min-height: 14rem;
   }
 }
 

@@ -15,6 +15,7 @@ import {
   UserRound,
   X,
 } from 'lucide-react'
+import erpImage from './assets/ERP.png'
 import brandLogo from './assets/logo.bgyoq.png'
 import notebookCodeImage from './assets/noutbuk.code.png'
 import { serviceIcons, techStack, translations, type AppLanguage, type ContactSubmitState, type ProjectCategory } from './i18n'
@@ -58,21 +59,21 @@ const journeyContent = {
     items: [
       {
         point: 'Bosqich A',
-        title: 'Front-end Foundation',
-        text: "HTML, CSS, SCSS va Git bilan saytning ko'rinadigan qismini toza yig'ish, layoutni ushlash va birinchi real natijalarni olish bosqichi.",
+        title: 'Frontend asosi',
+        text: "HTML, CSS, SCSS va Git bilan saytning ko'rinadigan qismini toza yig'ish, joylashuvni ushlash va birinchi real natijalarni olish bosqichi.",
         result: "Natija: sahifa yig'ish tezligi, toza verstka va birinchi ishonchli frontend asos paydo bo'ldi.",
         visuals: ['HTML', 'CSS', 'SCSS', 'Git', 'GitHub'],
       },
       {
         point: 'Bosqich B',
-        title: 'Vanilla JavaScript',
+        title: 'Sof JavaScript',
         text: "DOM, event, API va komponentga o'xshash fikrlash orqali sahifani statik holatdan interaktiv holatga olib chiqish bosqichi.",
         result: "Natija: foydalanuvchi bilan ishlaydigan dinamik bloklar, form logic va real interaktivlikni yozishni boshladim.",
         visuals: ['JavaScript', 'DOM', 'API', 'Logic'],
       },
       {
         point: 'Bosqich C',
-        title: 'React Ecosystem',
+        title: 'React ekotizimi',
         text: "React, TypeScript, Tailwind va Framer Motion orqali portfolio, landing page va ERP interfeyslarni tizimli darajada qurish bosqichi.",
         result: "Natija: murakkabroq dashboard, component architecture va real biznesga mos frontend yechimlar yaratadigan darajaga chiqdim.",
         visuals: ['React', 'TypeScript', 'Tailwind', 'Motion', 'ERP UI'],
@@ -86,21 +87,21 @@ const journeyContent = {
     items: [
       {
         point: 'Этап A',
-        title: 'Front-end Foundation',
-        text: 'Этап, где с помощью HTML, CSS, SCSS и Git я научился чисто собирать визуальную часть сайта, держать layout и получать первые реальные результаты.',
+        title: 'Основа frontend',
+        text: 'Этап, где с помощью HTML, CSS, SCSS и Git я научился чисто собирать визуальную часть сайта, держать структуру и получать первые реальные результаты.',
         result: 'Результат: выросла скорость сборки страниц, появилась чистая верстка и надежная база frontend.',
         visuals: ['HTML', 'CSS', 'SCSS', 'Git', 'GitHub'],
       },
       {
         point: 'Этап B',
-        title: 'Vanilla JavaScript',
+        title: 'Чистый JavaScript',
         text: 'Этап перехода от статичных страниц к интерактивным интерфейсам через DOM, события, API и более системное мышление.',
         result: 'Результат: я начал писать динамические блоки, form logic и реальную интерактивность для пользователя.',
         visuals: ['JavaScript', 'DOM', 'API', 'Logic'],
       },
       {
         point: 'Этап C',
-        title: 'React Ecosystem',
+        title: 'Экосистема React',
         text: 'Этап, где с React, TypeScript, Tailwind и Framer Motion я вышел на системную сборку portfolio, landing page и ERP интерфейсов.',
         result: 'Результат: я вышел на уровень более сложных dashboard, component architecture и frontend-решений для реального бизнеса.',
         visuals: ['React', 'TypeScript', 'Tailwind', 'Motion', 'ERP UI'],
@@ -133,6 +134,111 @@ const journeyContent = {
         result: 'Result: I moved into more advanced dashboards, component architecture, and frontend solutions for real business.',
         visuals: ['React', 'TypeScript', 'Tailwind', 'Motion', 'ERP UI'],
       },
+    ],
+  },
+} as const
+
+const caseStudyContent = {
+  uz: {
+    eyebrow: 'Case Study',
+    title: "Loyihani shunchaki chiroyli emas, ishlaydigan mahsulotga aylantirish jarayonim.",
+    description: "Bu bo'limda bir tipik ish uslubimni ko'rsatdim: vazifa qanday boshlanadi, men nimaga e'tibor beraman va yakunda qanday natija chiqadi.",
+    featured: {
+      label: 'Asosiy yondashuv',
+      title: 'ERP va landing page ishlarda men avval tizimni, keyin vizualni quraman.',
+      text: "Agar interfeys ichida mantiq, oqim va ustuvorliklar aniq bo'lmasa, chiroyli dizayn ham uzoqqa bormaydi. Shuning uchun men bloklarni foydalanuvchi oqimi, component structure va real foydalanish holatlari bilan yig'aman.",
+      imageAlt: 'Case study cover',
+      tags: ['User Flow', 'Structure', 'Real Usage'],
+    },
+    cards: [
+      {
+        step: '01',
+        title: 'Muammo',
+        text: "Ko'p loyihalarda sahifa chiroyli ko'rinadi, lekin foydalanuvchi qayerga bosishini, form qanday ishlashini yoki ma'lumot qayerga olib borishini tez tushunmaydi.",
+      },
+      {
+        step: '02',
+        title: 'Yechim',
+        text: "Men layoutni hierarchy asosida yig'aman, muhim CTA'larni oldinga olib chiqaman, componentlarni qayta ishlatishga mos qilaman va animatsiyani faqat foydali joylarda ishlataman.",
+      },
+      {
+        step: '03',
+        title: 'Natija',
+        text: "Natijada interfeys nafaqat premium ko'rinadi, balki tezroq tushuniladi, mobilga yaxshi moslashadi va keyingi o'sish uchun ham tayyor bo'ladi.",
+      },
+    ],
+    metrics: [
+      { value: 'UI + Logic', label: 'Birga quriladi' },
+      { value: 'Responsive', label: 'Desktop va telefon' },
+      { value: 'Clean Delivery', label: 'Topshirish sifati' },
+    ],
+  },
+  ru: {
+    eyebrow: 'Case Study',
+    title: 'Как я превращаю проект не просто в красивую страницу, а в рабочий продукт.',
+    description: 'Здесь я показал типичный для себя подход: с чего начинается задача, на что я смотрю в первую очередь и какой результат должен получить бизнес и пользователь.',
+    featured: {
+      label: 'Основной подход',
+      title: 'В ERP и landing page проектах я сначала строю систему, а потом усиливаю визуал.',
+      text: 'Если внутри интерфейса нет логики, потока и понятных приоритетов, даже красивый дизайн быстро теряет ценность. Поэтому я собираю блоки через user flow, component structure и реальные сценарии использования.',
+      imageAlt: 'Обложка case study',
+      tags: ['User Flow', 'Structure', 'Real Usage'],
+    },
+    cards: [
+      {
+        step: '01',
+        title: 'Проблема',
+        text: 'Во многих проектах страница выглядит красиво, но пользователь не сразу понимает, куда нажимать, как работает форма и куда ведет нужное действие.',
+      },
+      {
+        step: '02',
+        title: 'Решение',
+        text: 'Я собираю layout через hierarchy, выношу важные CTA вперед, делаю component-структуру пригодной для повторного использования и оставляю анимацию только там, где она реально усиливает интерфейс.',
+      },
+      {
+        step: '03',
+        title: 'Результат',
+        text: 'В итоге интерфейс выглядит premium, быстрее считывается, лучше работает на мобильных устройствах и остается готовым к дальнейшему росту продукта.',
+      },
+    ],
+    metrics: [
+      { value: 'UI + Logic', label: 'Собираются вместе' },
+      { value: 'Responsive', label: 'Desktop и телефон' },
+      { value: 'Clean Delivery', label: 'Качество сдачи' },
+    ],
+  },
+  en: {
+    eyebrow: 'Case Study',
+    title: 'How I turn a project into a working product, not just a good-looking page.',
+    description: 'This section shows my typical process: how the task starts, what I focus on first, and what kind of outcome I try to deliver for both the user and the business.',
+    featured: {
+      label: 'Core approach',
+      title: 'In ERP and landing page work, I build the system first and then sharpen the visual layer.',
+      text: 'If the interface does not have clear logic, flow, and priorities, even a beautiful design loses value quickly. That is why I shape blocks around user flow, component structure, and real usage scenarios.',
+      imageAlt: 'Case study cover',
+      tags: ['User Flow', 'Structure', 'Real Usage'],
+    },
+    cards: [
+      {
+        step: '01',
+        title: 'Problem',
+        text: 'Many projects look polished at first glance, but users still struggle to understand where to click, how a form behaves, and what each action leads to.',
+      },
+      {
+        step: '02',
+        title: 'Solution',
+        text: 'I build the layout through clear hierarchy, push key CTAs forward, shape reusable component structure, and keep animation only where it improves the experience.',
+      },
+      {
+        step: '03',
+        title: 'Outcome',
+        text: 'The final interface feels premium, becomes easier to understand, adapts better to mobile, and stays ready for future product growth.',
+      },
+    ],
+    metrics: [
+      { value: 'UI + Logic', label: 'Built together' },
+      { value: 'Responsive', label: 'Desktop and mobile' },
+      { value: 'Clean Delivery', label: 'Delivery quality' },
     ],
   },
 } as const
@@ -278,6 +384,7 @@ function App() {
   const pointerFrame = useRef<number | null>(null)
 
   const t = translations[language]
+  const caseStudy = caseStudyContent[language]
   const journey = journeyContent[language]
   const navItems = [
     { label: t.nav.about, href: '#about' },
@@ -644,6 +751,56 @@ function App() {
               </motion.article>
             ))}
           </motion.div>
+        </section>
+
+        <section className="mx-auto max-w-7xl px-6 py-6 lg:px-8">
+          <div className="case-study-shell">
+            <div className="case-study-header">
+              <div>
+                <p className="section-eyebrow">{caseStudy.eyebrow}</p>
+                <h2 className="section-title">{caseStudy.title}</h2>
+              </div>
+              <p className="case-study-header__text">{caseStudy.description}</p>
+            </div>
+
+            <div className="case-study-grid">
+              <article className="case-study-feature">
+                <div className="case-study-feature__visual">
+                  <img src={erpImage} alt={caseStudy.featured.imageAlt} loading="lazy" decoding="async" />
+                  <div className="case-study-feature__overlay" />
+                  <div className="case-study-feature__tags">
+                    {caseStudy.featured.tags.map((tag) => <span key={tag}>{tag}</span>)}
+                  </div>
+                </div>
+                <div className="case-study-feature__content">
+                  <p className="case-study-feature__label">{caseStudy.featured.label}</p>
+                  <h3 className="case-study-feature__title">{caseStudy.featured.title}</h3>
+                  <p className="case-study-feature__text">{caseStudy.featured.text}</p>
+                </div>
+              </article>
+
+              <div className="case-study-side">
+                <div className="case-study-metrics">
+                  {caseStudy.metrics.map((metric) => (
+                    <div key={metric.label} className="case-study-metric">
+                      <p className="case-study-metric__value">{metric.value}</p>
+                      <p className="case-study-metric__label">{metric.label}</p>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="case-study-cards">
+                  {caseStudy.cards.map((card) => (
+                    <article key={card.step} className="case-study-card">
+                      <span className="case-study-card__step">{card.step}</span>
+                      <h3 className="case-study-card__title">{card.title}</h3>
+                      <p className="case-study-card__text">{card.text}</p>
+                    </article>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
         </section>
 
         <section className="mx-auto max-w-7xl px-6 py-6 lg:px-8">
