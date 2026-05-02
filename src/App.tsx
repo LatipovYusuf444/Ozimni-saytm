@@ -1,28 +1,46 @@
-import { lazy, Suspense, useEffect, useRef, useState } from 'react'
-import type { ReactNode } from 'react'
-import { motion } from 'framer-motion'
+import { useEffect, useState } from 'react'
+import { motion, useReducedMotion } from 'framer-motion'
 import {
   ArrowRight,
+  BookOpen,
+  BriefcaseBusiness,
+  ChevronUp,
+  Code2,
+  Download,
+  FileText,
+  FolderOpen,
   Github,
   Globe,
   Instagram,
   Linkedin,
   Mail,
-  Menu,
+  MapPin,
+  Newspaper,
   Phone,
+  Rocket,
   Send,
-  Sparkles,
+  Trophy,
   UserRound,
-  X,
+  Users,
 } from 'lucide-react'
 import erpImage from './assets/ERP.png'
 import brandLogo from './assets/logo.bgyoq.png'
-import notebookCodeImage from './assets/noutbuk.code.png'
+import footerLogo from './assets/logo.yusuf.png'
+import aboutPortrait from './assets/images/ozmnirasmim.webp'
+import AnimatedSection from './components/AnimatedSection'
+import Hero from './components/Hero'
+import Navbar from './components/Navbar'
 import { serviceIcons, techStack, translations, type AppLanguage, type ContactSubmitState, type ProjectCategory } from './i18n'
 import './App.css'
 
 const formspreeEndpoint = import.meta.env.VITE_FORMSPREE_ENDPOINT as string | undefined
-const BackgroundScene = lazy(() => import('./BackgroundScene'))
+type PageId = 'home' | 'about' | 'projects' | 'services' | 'contact'
+const pageIds: PageId[] = ['home', 'about', 'projects', 'services', 'contact']
+
+function getPageFromHash(): PageId {
+  const hash = window.location.hash.replace('#', '')
+  return pageIds.includes(hash as PageId) ? (hash as PageId) : 'home'
+}
 
 const profile = {
   name: 'Latipov Yusuf',
@@ -138,6 +156,8 @@ const journeyContent = {
   },
 } as const
 
+void journeyContent
+
 const caseStudyContent = {
   uz: {
     eyebrow: 'Case Study',
@@ -243,9 +263,142 @@ const caseStudyContent = {
   },
 } as const
 
-function Button({ href, children, secondary = false }: { href: string; children: ReactNode; secondary?: boolean }) {
-  return <a className={secondary ? 'button button-secondary' : 'button button-primary'} href={href}>{children}</a>
-}
+const footerContent = {
+  uz: {
+    navigation: 'Navigatsiya',
+    resources: 'Resurslar',
+    contacts: 'Kontaktlar',
+    subscribe: "Obuna bo'ling",
+    subscribeText: "Yangiliklar va yangi loyihalar haqida birinchilardan bo'lib xabar oling.",
+    emailPlaceholder: 'Email manzilingiz',
+    resourcesList: ['Blog', 'Portfolio', 'Resume', 'Case Studies'],
+    location: "Toshkent, O'zbekiston",
+    questionTitle: 'Savollaringiz bormi?',
+    questionText: 'Birgalikda ajoyib loyihalar yaratamiz.',
+    privacy: 'Maxfiylik siyosati',
+    terms: 'Foydalanish shartlari',
+  },
+  ru: {
+    navigation: 'Навигация',
+    resources: 'Ресурсы',
+    contacts: 'Контакты',
+    subscribe: 'Подписаться',
+    subscribeText: 'Получайте новости и обновления о новых проектах первыми.',
+    emailPlaceholder: 'Ваш email',
+    resourcesList: ['Блог', 'Портфолио', 'Резюме', 'Кейсы'],
+    location: 'Ташкент, Узбекистан',
+    questionTitle: 'Есть вопросы?',
+    questionText: 'Создадим сильные проекты вместе.',
+    privacy: 'Политика конфиденциальности',
+    terms: 'Условия использования',
+  },
+  en: {
+    navigation: 'Navigation',
+    resources: 'Resources',
+    contacts: 'Contacts',
+    subscribe: 'Subscribe',
+    subscribeText: 'Get updates about new projects and news first.',
+    emailPlaceholder: 'Your email address',
+    resourcesList: ['Blog', 'Portfolio', 'Resume', 'Case Studies'],
+    location: 'Tashkent, Uzbekistan',
+    questionTitle: 'Have questions?',
+    questionText: 'Let’s build great projects together.',
+    privacy: 'Privacy policy',
+    terms: 'Terms of use',
+  },
+} as const
+
+const aboutPageContent = {
+  uz: {
+    badge: 'Men haqimda',
+    titlePrefix: 'Salom! Men',
+    highlightedName: 'Latipov',
+    titleSuffix: 'Yusuf.',
+    description: 'Frontend dasturchi va UI muhandis. Zamonaviy, tezkor va foydalanuvchi uchun qulay web yechimlar yarataman.',
+    projectsButton: 'Mening loyihalarim',
+    cvButton: 'Mening CV',
+    stats: [
+      { value: '2+', label: 'Yillik tajriba' },
+      { value: '20+', label: 'Loyihalar' },
+      { value: '10+', label: 'Mamnun mijozlar' },
+      { value: '100%', label: 'Sifatga intilish' },
+    ],
+    pathEyebrow: "Mening yo'lim",
+    pathTitle: "Doimiy o'sish\nva rivojlanish.",
+    path: [
+      { step: '01', title: 'Boshlanish', text: "Dasturlashga qiziqish bilan yo'lni boshladim va frontend asoslarini puxta o'rgandim." },
+      { step: '02', title: 'Rivojlanish', text: "Real loyihalarda ishlash orqali ko'nikmalarimni rivojlantirdim va yangi texnologiyalarni o'rgandim." },
+      { step: '03', title: 'Hozirgi vaqt', text: 'Zamonaviy yechimlar yaratib, foydalanuvchilar uchun qulay mahsulotlar ishlayman.' },
+    ],
+    techEyebrow: 'Texnologiyalar',
+    techTitle: 'Asosiy texnologiyalarim.',
+    ctaEyebrow: 'Hamkorlik qilaylik',
+    ctaTitle: "Qiziqarli loyiha g'oyangiz bormi?",
+    ctaText: 'Ushbu g‘oyani birgalikda real natijaga aylantiraylik.',
+    ctaButton: "Men bilan bog'laning",
+    imageAlt: 'Latipov Yusuf portret rasmi',
+  },
+  ru: {
+    badge: 'Обо мне',
+    titlePrefix: 'Привет! Я',
+    highlightedName: 'Латипов',
+    titleSuffix: 'Юсуф.',
+    description: 'Frontend-разработчик и UI-инженер. Создаю современные, быстрые и удобные web-решения для пользователей.',
+    projectsButton: 'Мои проекты',
+    cvButton: 'Моё CV',
+    stats: [
+      { value: '2+', label: 'Года опыта' },
+      { value: '20+', label: 'Проектов' },
+      { value: '10+', label: 'Довольных клиентов' },
+      { value: '100%', label: 'Фокус на качестве' },
+    ],
+    pathEyebrow: 'Мой путь',
+    pathTitle: 'Постоянный рост\nи развитие.',
+    path: [
+      { step: '01', title: 'Начало', text: 'Я начал путь с интереса к разработке и крепко освоил основы frontend.' },
+      { step: '02', title: 'Развитие', text: 'Через реальные проекты развивал навыки и изучал новые технологии.' },
+      { step: '03', title: 'Сейчас', text: 'Создаю современные решения и удобные продукты для пользователей.' },
+    ],
+    techEyebrow: 'Технологии',
+    techTitle: 'Мои основные технологии.',
+    ctaEyebrow: 'Давайте сотрудничать',
+    ctaTitle: 'Есть интересная идея проекта?',
+    ctaText: 'Давайте вместе превратим эту идею в реальный результат.',
+    ctaButton: 'Связаться со мной',
+    imageAlt: 'Портрет Латипова Юсуфа',
+  },
+  en: {
+    badge: 'About me',
+    titlePrefix: 'Hello! I am',
+    highlightedName: 'Latipov',
+    titleSuffix: 'Yusuf.',
+    description: 'Frontend developer and UI engineer. I create modern, fast, and user-friendly web solutions.',
+    projectsButton: 'My projects',
+    cvButton: 'My CV',
+    stats: [
+      { value: '2+', label: 'Years experience' },
+      { value: '20+', label: 'Projects' },
+      { value: '10+', label: 'Happy clients' },
+      { value: '100%', label: 'Quality focus' },
+    ],
+    pathEyebrow: 'My path',
+    pathTitle: 'Constant growth\nand progress.',
+    path: [
+      { step: '01', title: 'Beginning', text: 'I started with curiosity for development and built a solid frontend foundation.' },
+      { step: '02', title: 'Growth', text: 'Real projects helped me improve my skills and learn new technologies.' },
+      { step: '03', title: 'Now', text: 'I create modern solutions and comfortable products for users.' },
+    ],
+    techEyebrow: 'Technologies',
+    techTitle: 'My main technologies.',
+    ctaEyebrow: 'Let’s collaborate',
+    ctaTitle: 'Have an interesting project idea?',
+    ctaText: 'Let’s turn that idea into a real result together.',
+    ctaButton: 'Contact me',
+    imageAlt: 'Portrait of Latipov Yusuf',
+  },
+} as const
+
+const aboutTechItems = ['React', 'TypeScript', 'Tailwind', 'JavaScript', 'HTML', 'CSS', 'Git', 'Figma', 'Motion']
 
 function TechGlyph({ label }: { label: string }) {
   if (label === 'HTML') {
@@ -352,20 +505,6 @@ function TechGlyph({ label }: { label: string }) {
   )
 }
 
-function TechVisual({ label }: { label: string }) {
-  const normalizedLabel = label.toLowerCase()
-  const compactLabel = label === 'GitHub' ? 'GitHub' : label
-
-  return (
-    <span className={`journey-badge ${normalizedLabel.includes('html') || normalizedLabel.includes('javascript') || normalizedLabel.includes('github') || normalizedLabel.includes('erp') ? 'journey-badge--1' : normalizedLabel.includes('css') || normalizedLabel.includes('dom') || normalizedLabel.includes('typescript') ? 'journey-badge--2' : normalizedLabel.includes('scss') || normalizedLabel.includes('api') || normalizedLabel.includes('tailwind') ? 'journey-badge--3' : 'journey-badge--4'}`}>
-      <span className="journey-badge-icon">
-        <TechGlyph label={label} />
-      </span>
-      <span className="journey-badge-text">{compactLabel}</span>
-    </span>
-  )
-}
-
 function App() {
   const [contactState, setContactState] = useState<ContactSubmitState>('idle')
   const [isSending, setIsSending] = useState(false)
@@ -375,17 +514,12 @@ function App() {
     return savedLanguage === 'uz' || savedLanguage === 'ru' || savedLanguage === 'en' ? savedLanguage : 'uz'
   })
   const [activeCategory, setActiveCategory] = useState<ProjectCategory>('all')
-  const [isScrolled, setIsScrolled] = useState(false)
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-  const [shouldRenderScene, setShouldRenderScene] = useState(false)
-  const [isLowPowerDevice, setIsLowPowerDevice] = useState(false)
-  const [hasFinePointer, setHasFinePointer] = useState(true)
-  const [pointer, setPointer] = useState({ x: 50, y: 20 })
-  const pointerFrame = useRef<number | null>(null)
+  const [activePage, setActivePage] = useState<PageId>(() => getPageFromHash())
+  const reduceMotion = Boolean(useReducedMotion())
 
   const t = translations[language]
   const caseStudy = caseStudyContent[language]
-  const journey = journeyContent[language]
+  const aboutPage = aboutPageContent[language]
   const navItems = [
     { label: t.nav.about, href: '#about' },
     { label: t.nav.projects, href: '#projects' },
@@ -394,7 +528,21 @@ function App() {
   ]
   const categories = (Object.keys(t.projects.categories) as ProjectCategory[]).map((key) => ({ key, label: t.projects.categories[key] }))
   const filteredProjects = activeCategory === 'all' ? t.projects.items : t.projects.items.filter((project) => project.category === activeCategory)
-  const visibleProjects = filteredProjects.slice(0, 3)
+  const visibleProjects = filteredProjects
+  const heroStats = language === 'uz'
+    ? [
+      { value: '22+', label: 'Yoshim' },
+      { value: '1+ yil', label: 'Tajriba' },
+      { value: 'ERP / Landing / Web', label: "Asosiy yo'nalishlar" },
+    ]
+    : t.metrics
+  const heroTitle = language === 'uz'
+    ? "Zamonaviy frontend yechimlar\nbiznesingiz uchun."
+    : t.hero.title
+  const heroDescription = language === 'uz'
+    ? 'ERP, landing va biznes saytlar uchun tez, toza va ishonchli frontend.'
+    : t.hero.description
+  const footer = footerContent[language]
 
   useEffect(() => {
     if (!profile.analyticsId) return
@@ -409,65 +557,6 @@ function App() {
       script.remove()
       inlineScript.remove()
     }
-  }, [hasFinePointer])
-
-  useEffect(() => {
-    const compactQuery = window.matchMedia('(max-width: 900px)')
-    const coarseQuery = window.matchMedia('(pointer: coarse)')
-    const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
-
-    const updateDeviceMode = () => {
-      const lowPower = compactQuery.matches || coarseQuery.matches || reducedMotionQuery.matches
-      setIsLowPowerDevice(lowPower)
-      setHasFinePointer(!coarseQuery.matches && !reducedMotionQuery.matches)
-    }
-
-    updateDeviceMode()
-    const enableSceneTimer = window.setTimeout(() => setShouldRenderScene(true), 200)
-
-    compactQuery.addEventListener('change', updateDeviceMode)
-    coarseQuery.addEventListener('change', updateDeviceMode)
-    reducedMotionQuery.addEventListener('change', updateDeviceMode)
-
-    return () => {
-      window.clearTimeout(enableSceneTimer)
-      compactQuery.removeEventListener('change', updateDeviceMode)
-      coarseQuery.removeEventListener('change', updateDeviceMode)
-      reducedMotionQuery.removeEventListener('change', updateDeviceMode)
-    }
-  }, [])
-
-  useEffect(() => {
-    if (!hasFinePointer) return
-
-    const handlePointerMove = (event: PointerEvent) => {
-      if (pointerFrame.current !== null) return
-
-      pointerFrame.current = window.requestAnimationFrame(() => {
-        setPointer({
-          x: (event.clientX / window.innerWidth) * 100,
-          y: (event.clientY / window.innerHeight) * 100,
-        })
-        pointerFrame.current = null
-      })
-    }
-
-    window.addEventListener('pointermove', handlePointerMove, { passive: true })
-
-    return () => {
-      window.removeEventListener('pointermove', handlePointerMove)
-      if (pointerFrame.current !== null) {
-        window.cancelAnimationFrame(pointerFrame.current)
-        pointerFrame.current = null
-      }
-    }
-  }, [])
-
-  useEffect(() => {
-    const updateScroll = () => setIsScrolled(window.scrollY > 32)
-    updateScroll()
-    window.addEventListener('scroll', updateScroll, { passive: true })
-    return () => window.removeEventListener('scroll', updateScroll)
   }, [])
 
   useEffect(() => {
@@ -476,19 +565,20 @@ function App() {
   }, [language])
 
   useEffect(() => {
+    const updatePage = () => {
+      setActivePage(getPageFromHash())
+      window.requestAnimationFrame(() => window.scrollTo({ top: 0, behavior: 'smooth' }))
+    }
+    updatePage()
+    window.addEventListener('hashchange', updatePage)
+    return () => window.removeEventListener('hashchange', updatePage)
+  }, [])
+
+  useEffect(() => {
     setActiveCategory('all')
     setContactState('idle')
     setIsSubscribed(false)
   }, [language])
-
-  useEffect(() => {
-    if (!isMobileMenuOpen) return
-    const handleEscape = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') setIsMobileMenuOpen(false)
-    }
-    window.addEventListener('keydown', handleEscape)
-    return () => window.removeEventListener('keydown', handleEscape)
-  }, [isMobileMenuOpen])
 
   const handleContactSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -515,197 +605,125 @@ function App() {
     }
   }
 
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
   return (
     <div className="site-shell min-h-screen text-slate-100">
-      {shouldRenderScene ? (
-        <Suspense fallback={null}>
-          <BackgroundScene pointer={pointer} lowPower={isLowPowerDevice} />
-        </Suspense>
-      ) : null}
-      {hasFinePointer ? <div className="pointer-glow" style={{ left: `${pointer.x}%`, top: `${pointer.y}%` }} /> : null}
-      <header className={`site-header sticky top-0 z-50 ${isScrolled ? 'site-header--scrolled' : ''}`}>
-        <div className="mx-auto max-w-7xl px-4 py-3 lg:px-8">
-          <div className={`site-header__inner flex items-center justify-between ${isScrolled ? 'site-header__inner--scrolled' : ''}`}>
-            <a className="site-brand flex items-center" href="#home" aria-label={t.mobileMenu.title}>
-              <div className={`site-brand__logo flex items-center justify-center ${isScrolled ? 'site-brand__logo--scrolled' : ''}`}>
-                <img className="site-brand__logo-image" src={brandLogo} alt={`${profile.name} logo`} />
+      <Navbar
+        logo={brandLogo}
+        profileName={profile.name}
+        navItems={navItems}
+        activePage={activePage}
+        language={language}
+        onLanguageChange={setLanguage}
+        ctaLabel={t.nav.cta}
+        mobileLabels={t.mobileMenu}
+      />
+      <main id={activePage} className="relative z-10">
+        {activePage === 'home' ? (
+          <Hero
+            pill={t.hero.pill}
+            role={t.profile.role}
+            title={heroTitle}
+            description={heroDescription}
+            primaryAction={t.hero.viewProjects}
+            secondaryAction={t.hero.contact}
+            features={t.hero.marquee}
+            stats={heroStats}
+          />
+        ) : null}
+
+        {activePage === 'about' ? (
+        <>
+        <AnimatedSection id="about" className="about-page w-full max-w-none px-3 py-8 sm:px-4 lg:px-6 xl:px-8">
+          <div className="about-page__glow" />
+          <div className="about-hero">
+            <div className="about-hero__copy">
+              <span className="about-badge"><UserRound size={14} />{aboutPage.badge}</span>
+              <h1 className="about-hero__title">
+                {aboutPage.titlePrefix} <br />
+                <span>{aboutPage.highlightedName}</span> {aboutPage.titleSuffix}
+              </h1>
+              <p className="about-hero__text">{aboutPage.description}</p>
+              <div className="about-hero__actions">
+                <a className="about-button about-button--primary" href="#projects">{aboutPage.projectsButton}<ArrowRight size={17} /></a>
+                <a className="about-button about-button--secondary" href="#contact">{aboutPage.cvButton}<Download size={15} /></a>
               </div>
-            </a>
-            <div className="site-header__right hidden lg:flex lg:items-center">
-              <nav className={`site-nav items-center font-medium text-slate-300 lg:flex ${isScrolled ? 'site-nav--scrolled' : ''}`}>
-                {navItems.map((item) => <a key={item.href} className="nav-link" href={item.href}>{item.label}</a>)}
-              </nav>
-              <div className={`language-switcher ${isScrolled ? 'language-switcher--scrolled' : ''}`}>
-                {(['uz', 'ru', 'en'] as const).map((code) => (
-                  <button key={code} type="button" className={`language-switcher__button ${language === code ? 'language-switcher__button--active' : ''}`} onClick={() => setLanguage(code)}>
-                    {code.toUpperCase()}
-                  </button>
-                ))}
-              </div>
-              <a className={`site-header__cta inline-flex items-center gap-2 rounded-full border border-sky-200/12 bg-[rgba(219,234,254,0.08)] font-semibold text-slate-50 transition backdrop-blur-xl hover:bg-[rgba(219,234,254,0.14)] ${isScrolled ? 'site-header__cta--scrolled' : ''}`} href="#contact">
-                {t.nav.cta}
-                <ArrowRight size={16} />
-              </a>
             </div>
-            <button type="button" className="mobile-menu-button lg:hidden" aria-label={isMobileMenuOpen ? t.mobileMenu.close : t.mobileMenu.open} aria-expanded={isMobileMenuOpen} onClick={() => setIsMobileMenuOpen((current) => !current)}>
-              {isMobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
-            </button>
-          </div>
-        </div>
-      </header>
-      <div className={`mobile-menu-overlay ${isMobileMenuOpen ? 'mobile-menu-overlay--open' : ''}`} onClick={() => setIsMobileMenuOpen(false)} />
-      <aside className={`mobile-menu-drawer ${isMobileMenuOpen ? 'mobile-menu-drawer--open' : ''}`}>
-        <div className="mobile-menu-drawer__header">
-          <div className="mobile-menu-drawer__brand">
-            <div className="site-brand__logo site-brand__logo--drawer flex items-center justify-center">
-              <img className="site-brand__logo-image" src={brandLogo} alt={`${profile.name} logo`} />
+
+            <div className="about-hero__portrait">
+              <img src={aboutPortrait} alt={aboutPage.imageAlt} loading="eager" decoding="async" />
             </div>
-            <div>
-              <p className="mobile-menu-drawer__eyebrow">{t.mobileMenu.title}</p>
-              <p className="mobile-menu-drawer__title">{profile.name}</p>
+
+            <div className="about-stats">
+              {aboutPage.stats.map((stat, index) => {
+                const icons = [Rocket, Code2, Users, Trophy]
+                const Icon = icons[index] ?? Trophy
+                return (
+                  <motion.div key={stat.label} className="about-stat" initial={{ opacity: 0, y: 18 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.3 }} transition={{ delay: index * 0.08, duration: 0.5 }}>
+                    <span className="about-stat__icon"><Icon size={19} /></span>
+                    <div>
+                      <p className="about-stat__value">{stat.value}</p>
+                      <p className="about-stat__label">{stat.label}</p>
+                    </div>
+                  </motion.div>
+                )
+              })}
             </div>
           </div>
-          <button type="button" className="mobile-menu-close" aria-label={t.mobileMenu.close} onClick={() => setIsMobileMenuOpen(false)}>
-            <X size={20} />
-          </button>
-        </div>
-        <nav className="mobile-menu-nav">
-          {navItems.map((item) => <a key={item.href} className="mobile-menu-nav__link" href={item.href} onClick={() => setIsMobileMenuOpen(false)}>{item.label}</a>)}
-        </nav>
-        <div className="mobile-menu-language">
-          {(['uz', 'ru', 'en'] as const).map((code) => (
-            <button key={code} type="button" className={`language-switcher__button ${language === code ? 'language-switcher__button--active' : ''}`} onClick={() => setLanguage(code)}>
-              {code.toUpperCase()}
-            </button>
-          ))}
-        </div>
-        <a className="mobile-menu-cta" href="#contact" onClick={() => setIsMobileMenuOpen(false)}>
-          {t.nav.cta}
-          <ArrowRight size={16} />
-        </a>
-      </aside>
-      <main id="home" className="relative z-10">
-        <motion.section className="mx-auto grid max-w-7xl gap-14 px-6 pb-20 pt-14 lg:grid-cols-[1.15fr_0.85fr] lg:px-8 lg:pb-24 lg:pt-20" initial="hidden" animate="visible" variants={containerVariants}>
-          <motion.div className="space-y-8" variants={itemVariants}>
-            <div className="hero-pill">
-              <Sparkles size={16} className="text-sky-300" />
-              {t.hero.pill}
+
+          <div className="about-path-panel">
+            <div className="about-path-panel__intro">
+              <p className="about-section-label">{aboutPage.pathEyebrow}</p>
+              <h2>{aboutPage.pathTitle}</h2>
             </div>
-            <div className="space-y-7">
-              <p className="text-sm font-semibold uppercase tracking-[0.32em] text-slate-400">{t.profile.role}</p>
-              <h1 className="max-w-4xl text-[2.45rem] font-semibold leading-[0.96] tracking-[-0.05em] text-slate-50 sm:text-[3.3rem] lg:text-[4.5rem]">{t.hero.title}</h1>
-              <p className="max-w-2xl text-[1.02rem] leading-8 text-slate-300 sm:text-[1.08rem]">{t.hero.description}</p>
+            <div className="about-path-cards">
+              {aboutPage.path.map((item, index) => {
+                const icons = [BookOpen, Code2, Rocket]
+                const Icon = icons[index] ?? Rocket
+                return (
+                  <motion.article key={item.step} className="about-path-card" initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.35 }} transition={{ delay: index * 0.1, duration: 0.52 }}>
+                    <span className="about-path-card__step">{item.step}</span>
+                    <Icon className="about-path-card__icon" size={30} />
+                    <h3>{item.title}</h3>
+                    <p>{item.text}</p>
+                  </motion.article>
+                )
+              })}
             </div>
-            <div className="flex flex-col gap-4 sm:flex-row">
-              <Button href="#projects">{t.hero.viewProjects}<ArrowRight size={18} /></Button>
-              <Button href="#contact" secondary>{t.hero.contact}</Button>
-            </div>
-            <div className="hero-marquee">
-              {t.hero.marquee.map((item) => <span key={item}>{item}</span>)}
-            </div>
-            <div className="grid gap-4 sm:grid-cols-3">
-              {t.metrics.map((metric) => (
-                <div key={metric.label} className="hero-stat-card">
-                  <p className="text-[1.45rem] font-semibold tracking-[-0.03em] text-slate-50 sm:text-[1.8rem]">{metric.value}</p>
-                  <p className="mt-1 text-sm text-slate-300">{metric.label}</p>
+          </div>
+
+          <div className="about-tech-panel">
+            <p className="about-section-label">{aboutPage.techEyebrow}</p>
+            <h2>{aboutPage.techTitle}</h2>
+            <div className="about-tech-grid">
+              {aboutTechItems.map((item) => (
+                <div key={item} className="about-tech-item">
+                  <span><TechGlyph label={item} /></span>
+                  <p>{item === 'Motion' ? 'Framer Motion' : item}</p>
                 </div>
               ))}
             </div>
-          </motion.div>
-
-          <motion.div className="relative" variants={itemVariants}>
-            <div className="absolute -left-8 top-10 h-28 w-28 rounded-full bg-sky-300/20 blur-3xl" />
-            <div className="absolute bottom-10 right-0 h-36 w-36 rounded-full bg-blue-300/18 blur-3xl" />
-            <div className="hero-profile-shell">
-              <div className="flex items-center justify-between text-sm text-stone-300">
-                <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-2"><UserRound size={14} />{t.hero.profileBadge}</span>
-                <span>{t.profile.location}</span>
-              </div>
-              <div className="mt-8 grid gap-3 sm:grid-cols-[1.2fr_0.8fr]">
-                <div className="hero-profile-main">
-                  <p className="hero-profile-label">{t.hero.positioning}</p>
-                  <h2 className="text-[1.95rem] font-semibold leading-[1.02] tracking-[-0.04em]">{profile.name}</h2>
-                  <p className="max-w-lg text-[0.98rem] leading-8 text-stone-300">{t.profile.shortBio}</p>
-                </div>
-                <div className="hero-availability-card">
-                  <span className="hero-availability-dot" />
-                  <p className="hero-profile-label">{t.hero.statusLabel}</p>
-                  <h3 className="text-lg font-semibold text-slate-50">{t.hero.statusTitle}</h3>
-                  <p className="text-sm leading-6 text-slate-300">{t.hero.statusText}</p>
-                </div>
-              </div>
-              <div className="mt-6 grid gap-3">
-                {t.heroSignals.map((signal, index) => (
-                  <motion.div key={signal.label} className="hero-signal-row" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.15 + index * 0.08, duration: 0.45 }}>
-                    <span className="hero-signal-index">0{index + 1}</span>
-                    <div>
-                      <p className="hero-profile-label">{signal.label}</p>
-                      <p className="text-sm leading-6 text-slate-200">{signal.value}</p>
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-              <div className="mt-7 hero-company-card">
-                <div>
-                  <p className="hero-profile-label">{t.hero.companyLabel}</p>
-                  <h3 className="text-[1.05rem] font-semibold text-slate-50">{profile.currentCompany}</h3>
-                  <p className="mt-2 text-sm leading-6 text-slate-300">{t.hero.companyText}</p>
-                </div>
-                <a className="hero-company-link" href={profile.currentCompanyUrl} target="_blank" rel="noreferrer">
-                  <Globe size={16} />
-                  {t.hero.companyAction}
-                </a>
-              </div>
-              <div className="mt-8 grid gap-4 text-sm text-stone-300 sm:grid-cols-2">
-                <a className="contact-chip" href={`mailto:${profile.email}`}><Mail size={16} />{profile.email}</a>
-                <a className="contact-chip" href={`tel:${profile.phone.replaceAll(' ', '')}`}><Phone size={16} />{profile.phone}</a>
-              </div>
-            </div>
-          </motion.div>
-        </motion.section>
-
-        <section id="about" className="mx-auto max-w-7xl px-6 py-10 lg:px-8">
-          <div className="about-shell">
-            <div className="about-grid">
-              <div className="space-y-6">
-                <div>
-                  <p className="section-eyebrow">{t.about.eyebrow}</p>
-                  <h2 className="section-title max-w-4xl">{t.about.title}</h2>
-                </div>
-                <p className="max-w-2xl text-[1rem] leading-8 text-slate-300 sm:text-[1.04rem]">{t.about.description}</p>
-                <div className="about-media-card">
-                  <div className="about-media-card__image">
-                    <span className="about-media-card__image-badge">{t.about.mediaBadge}</span>
-                    <img src={notebookCodeImage} alt={t.about.imageAlt} loading="lazy" decoding="async" />
-                  </div>
-                  <div className="about-media-card__content">
-                    <p className="about-media-card__eyebrow">{t.about.processEyebrow}</p>
-                    <h3 className="about-media-card__title">{t.about.processTitle}</h3>
-                    <p className="about-media-card__text">{t.about.processText}</p>
-                    <div className="about-media-card__chips">
-                      {t.about.chips.map((chip) => <span key={chip}>{chip}</span>)}
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="grid gap-4">
-                {t.about.highlights.map((item, index) => (
-                  <motion.div key={item.title} className="about-card" initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.3 }} transition={{ delay: index * 0.08, duration: 0.45 }}>
-                    <span className="about-card-index">0{index + 1}</span>
-                    <h3 className="font-semibold text-slate-50">{item.title}</h3>
-                    <p className="text-slate-300">{item.text}</p>
-                  </motion.div>
-                ))}
-              </div>
-              <div className="about-quote">
-                <p className="about-quote-mark">"</p>
-                <p className="text-[1.02rem] leading-8 text-slate-200">{t.about.quote}</p>
-              </div>
-            </div>
           </div>
-        </section>
 
-        <section id="projects" className="mx-auto max-w-7xl px-6 py-14 lg:px-8">
+          <div className="about-cta-panel">
+            <div className="about-cta-panel__icon"><Mail size={34} /></div>
+            <div>
+              <p className="about-section-label">{aboutPage.ctaEyebrow}</p>
+              <h2>{aboutPage.ctaTitle}</h2>
+              <p>{aboutPage.ctaText}</p>
+            </div>
+            <a className="about-button about-button--primary" href="#contact">{aboutPage.ctaButton}<ArrowRight size={17} /></a>
+          </div>
+        </AnimatedSection>
+        </>
+        ) : null}
+
+        {activePage === 'projects' ? (
+        <>
+        <AnimatedSection id="projects" className="w-full max-w-none px-6 py-14 lg:px-16 xl:px-20">
           <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
             <div>
               <p className="section-eyebrow">{t.projects.eyebrow}</p>
@@ -751,9 +769,9 @@ function App() {
               </motion.article>
             ))}
           </motion.div>
-        </section>
+        </AnimatedSection>
 
-        <section className="mx-auto max-w-7xl px-6 py-6 lg:px-8">
+        <AnimatedSection className="w-full max-w-none px-6 py-6 lg:px-16 xl:px-20">
           <div className="case-study-shell">
             <div className="case-study-header">
               <div>
@@ -801,44 +819,12 @@ function App() {
               </div>
             </div>
           </div>
-        </section>
+        </AnimatedSection>
+        </>
+        ) : null}
 
-        <section className="mx-auto max-w-7xl px-6 py-6 lg:px-8">
-          <div className="journey-shell">
-            <div className="max-w-3xl">
-              <p className="section-eyebrow">{journey.eyebrow}</p>
-              <h2 className="section-title">{journey.title}</h2>
-              <p className="mt-5 max-w-2xl leading-7 text-slate-300">{journey.description}</p>
-            </div>
-            <div className="journey-grid">
-              {journey.items.map((item, index) => (
-                <motion.article
-                  key={item.title}
-                  className={`journey-row ${index % 2 === 1 ? 'journey-row--reverse' : ''}`}
-                  initial={{ opacity: 0, y: 24 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, amount: 0.25 }}
-                  transition={{ duration: 0.5, delay: index * 0.08 }}
-                >
-                  <div className="journey-copy">
-                    <p className="journey-point">{item.point}</p>
-                    <h3 className="journey-title">{item.title}</h3>
-                    <p className="journey-text">{item.text}</p>
-                    <p className="journey-result">{item.result}</p>
-                  </div>
-                  <div className="journey-visual">
-                    <div className="journey-visual-glow" />
-                    <div className="journey-badges">
-                      {item.visuals.map((visual) => <TechVisual key={visual} label={visual} />)}
-                    </div>
-                  </div>
-                </motion.article>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section id="services" className="mx-auto max-w-7xl px-6 py-14 lg:px-8">
+        {activePage === 'services' ? (
+        <AnimatedSection id="services" className="w-full max-w-none px-6 py-14 lg:px-16 xl:px-20">
           <div className="grid gap-10 lg:grid-cols-[0.85fr_1.15fr]">
             <div>
               <p className="section-eyebrow">{t.services.eyebrow}</p>
@@ -864,9 +850,11 @@ function App() {
               })}
             </div>
           </div>
-        </section>
+        </AnimatedSection>
+        ) : null}
 
-        <section id="contact" className="mx-auto max-w-7xl px-6 py-16 lg:px-8">
+        {activePage === 'contact' ? (
+        <AnimatedSection id="contact" className="w-full max-w-none px-6 py-16 lg:px-16 xl:px-20">
           <div className="glass-panel grid gap-8 rounded-[2rem] p-8 lg:grid-cols-[0.95fr_1.05fr] lg:p-10">
             <div>
               <p className="section-eyebrow">{t.contact.eyebrow}</p>
@@ -908,25 +896,92 @@ function App() {
               </div>
             </div>
           </div>
-        </section>
+        </AnimatedSection>
+        ) : null}
       </main>
-      <footer className="relative z-10 border-t border-white/10 bg-[#08101dcc] backdrop-blur">
-        <div className="mx-auto grid max-w-7xl gap-8 px-6 py-10 lg:grid-cols-[1fr_auto_auto] lg:px-8">
-          <div>
-            <p className="text-[1.35rem] font-semibold tracking-[-0.02em] text-slate-50">{profile.name}</p>
-            <p className="mt-3 max-w-xl text-slate-300">{t.footer.description}</p>
+      <footer className="footer-luxury relative z-10 px-5 py-5 lg:px-10 xl:px-12">
+        <motion.div
+          className="footer-luxury__inner relative overflow-hidden rounded-[1.1rem] border border-[#F5B971]/20 bg-[#05070d] px-5 py-7 shadow-[0_28px_90px_-55px_rgba(245,185,113,0.5)] lg:px-8"
+          initial={reduceMotion ? false : { opacity: 0, y: 28 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.18 }}
+          transition={{ duration: 0.68, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <div className="relative z-10 grid gap-7 lg:grid-cols-[1.35fr_0.82fr_0.9fr_1.15fr_1.15fr]">
+            <div className="footer-luxury__brand">
+              <div className="flex items-center gap-3">
+                <img className="h-11 w-11 object-contain drop-shadow-[0_0_20px_rgba(245,185,113,0.24)]" src={footerLogo} alt={`${profile.name} logo`} />
+                <p className="text-[1.05rem] font-extrabold tracking-[-0.02em] text-white">{profile.name}</p>
+              </div>
+              <p className="mt-5 max-w-[18rem] text-[0.9rem] leading-7 text-white/62">{t.footer.description}</p>
+              <div className="mt-6 flex gap-3">
+                <a className="footer-social" href={profile.github} target="_blank" rel="noreferrer" aria-label="GitHub"><Github size={17} /></a>
+                <a className="footer-social" href={profile.telegram} target="_blank" rel="noreferrer" aria-label="Telegram"><Send size={17} /></a>
+                <a className="footer-social" href={profile.linkedin} target="_blank" rel="noreferrer" aria-label="LinkedIn"><Linkedin size={17} /></a>
+                <a className="footer-social" href={profile.instagram} target="_blank" rel="noreferrer" aria-label="Instagram"><Instagram size={17} /></a>
+              </div>
+            </div>
+
+            <div className="footer-column">
+              <p className="footer-heading">{footer.navigation}</p>
+              <div className="mt-6 grid gap-4">
+                {navItems.map((item) => <a key={item.href} className="footer-link footer-link--dot" href={item.href}>{item.label}</a>)}
+              </div>
+            </div>
+
+            <div className="footer-column">
+              <p className="footer-heading">{footer.resources}</p>
+              <div className="mt-6 grid gap-4">
+                {footer.resourcesList.map((item, index) => {
+                  const icons = [Newspaper, Globe, FileText, FolderOpen]
+                  const Icon = icons[index] ?? BookOpen
+                  return <a key={item} className="footer-link" href="#projects"><Icon size={16} />{item}</a>
+                })}
+              </div>
+            </div>
+
+            <div className="footer-column">
+              <p className="footer-heading">{footer.contacts}</p>
+              <div className="mt-6 grid gap-4">
+                <a className="footer-link" href={`mailto:${profile.email}`}><Mail size={16} />{profile.email}</a>
+                <a className="footer-link" href={`tel:${profile.phone.replaceAll(' ', '')}`}><Phone size={16} />{profile.phone}</a>
+                <span className="footer-link"><MapPin size={16} />{footer.location}</span>
+                <a className="footer-link" href={profile.telegram} target="_blank" rel="noreferrer"><Send size={16} />Telegram</a>
+              </div>
+              <a className="footer-help" href="#contact">
+                <span className="footer-help__icon"><BriefcaseBusiness size={18} /></span>
+                <span>
+                  <span className="block text-[0.82rem] font-bold text-white">{footer.questionTitle}</span>
+                  <span className="mt-1 block text-[0.78rem] leading-5 text-white/58">{footer.questionText}</span>
+                </span>
+                <ArrowRight className="ml-auto text-[#F5B971]" size={18} />
+              </a>
+            </div>
+
+            <div className="footer-column">
+              <p className="footer-heading">{footer.subscribe}</p>
+              <p className="mt-6 max-w-[15rem] text-[0.86rem] leading-7 text-white/58">{footer.subscribeText}</p>
+              <form className="mt-6 flex overflow-hidden rounded-[0.7rem] border border-white/12 bg-white/[0.025]" onSubmit={(event) => event.preventDefault()}>
+                <input className="min-w-0 flex-1 bg-transparent px-4 py-3 text-[0.84rem] text-white outline-none placeholder:text-white/40" type="email" placeholder={footer.emailPlaceholder} />
+                <button className="grid w-12 place-items-center bg-gradient-to-br from-[#F5B971] to-[#EAA14A] text-[#120b05]" type="submit" aria-label={footer.subscribe}>
+                  <Send size={17} />
+                </button>
+              </form>
+            </div>
           </div>
-          <div className="space-y-3">
-            {navItems.map((item) => <a key={item.href} className="block text-slate-300 transition hover:text-white" href={item.href}>{item.label}</a>)}
-          </div>
-          <div className="space-y-3 text-slate-300">
-            <a className="block transition hover:text-white" href={`mailto:${profile.email}`}>{profile.email}</a>
-            <a className="block transition hover:text-white" href={`tel:${profile.phone.replaceAll(' ', '')}`}>{profile.phone}</a>
-            <a className="block transition hover:text-white" href={profile.github} target="_blank" rel="noreferrer">GitHub</a>
-            <a className="block transition hover:text-white" href={profile.telegram} target="_blank" rel="noreferrer">Telegram</a>
+
+          <div className="relative z-10 mt-7 flex flex-col gap-4 border-t border-white/10 pt-5 text-[0.78rem] text-white/50 md:flex-row md:items-center md:justify-between">
             <p>(c) 2026 {profile.name}. {t.footer.rights}</p>
+            <div className="flex flex-wrap gap-4">
+              <a className="transition hover:text-[#F5B971]" href="#contact">{footer.privacy}</a>
+              <span className="text-[#F5B971]">•</span>
+              <a className="transition hover:text-[#F5B971]" href="#contact">{footer.terms}</a>
+              <button className="footer-back-top" type="button" onClick={scrollToTop} aria-label="Back to top">
+                <ChevronUp size={15} />
+              </button>
+            </div>
           </div>
-        </div>
+        </motion.div>
       </footer>
     </div>
   )

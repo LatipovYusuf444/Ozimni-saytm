@@ -9,8 +9,8 @@
     font-family: 'Manrope', sans-serif;
     line-height: 1.5;
     font-weight: 400;
-    color: #e2e8f0;
-    background: #09111f;
+    color: #fffaf3;
+    background: #3b2f2f;
     font-synthesis: none;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
@@ -30,8 +30,9 @@
     margin: 0;
     min-width: 320px;
     min-height: 100vh;
-    background: #09111f;
-    color: #e2e8f0;
+    overflow-x: hidden;
+    background: #3b2f2f;
+    color: #fffaf3;
   }
 
   a {
@@ -51,7 +52,8 @@
   }
 
   ::selection {
-    background: rgba(96, 165, 250, 0.28);
+    background: rgba(242, 215, 182, 0.32);
+    color: #3b2f2f;
   }
 }
 
