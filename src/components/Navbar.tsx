@@ -1,9 +1,8 @@
 import { motion, useReducedMotion } from 'framer-motion'
 import { ArrowRight, Menu, X } from 'lucide-react'
 import { useEffect, useState } from 'react'
+import type { PageId } from '../content/siteContent'
 import type { AppLanguage } from '../i18n'
-
-type PageId = 'home' | 'about' | 'projects' | 'services' | 'contact'
 
 type NavItem = {
   label: string
@@ -15,8 +14,10 @@ type NavbarProps = {
   profileName: string
   navItems: NavItem[]
   activePage: PageId
+  homeLabel: string
   language: AppLanguage
   onLanguageChange: (language: AppLanguage) => void
+  onNavigate: (page: PageId) => void
   ctaLabel: string
   mobileLabels: {
     title: string
@@ -25,7 +26,7 @@ type NavbarProps = {
   }
 }
 
-export default function Navbar({ logo, profileName, navItems, activePage, language, onLanguageChange, ctaLabel, mobileLabels }: NavbarProps) {
+export default function Navbar({ logo, profileName, navItems, activePage, homeLabel, language, onLanguageChange, onNavigate, ctaLabel, mobileLabels }: NavbarProps) {
   const [isOpen, setIsOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
   const shouldReduceMotion = useReducedMotion()
@@ -46,6 +47,11 @@ export default function Navbar({ logo, profileName, navItems, activePage, langua
     return () => window.removeEventListener('scroll', updateScrolled)
   }, [])
 
+  const handleNavigate = (page: PageId) => {
+    onNavigate(page)
+    setIsOpen(false)
+  }
+
   return (
     <>
       <motion.header
@@ -59,7 +65,7 @@ export default function Navbar({ logo, profileName, navItems, activePage, langua
         transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
       >
         <div className="mx-auto flex min-h-[5.2rem] w-full max-w-none items-center justify-between px-5 sm:px-6 lg:px-10 xl:px-12">
-          <a className="group flex items-center gap-3" href="#home" aria-label={profileName}>
+          <a className="group flex items-center gap-3" href="#home" aria-label={profileName} onClick={() => handleNavigate('home')}>
             <motion.img
               className="ml-6 h-16 w-16 object-contain brightness-125 sepia saturate-150 drop-shadow-[0_10px_22px_rgba(245,194,122,0.28)]"
               src={logo}
@@ -77,6 +83,7 @@ export default function Navbar({ logo, profileName, navItems, activePage, langua
                   key={item.href}
                   className={`group relative py-2 transition duration-300 hover:text-white ${activePage === page ? 'text-white' : ''}`}
                   href={item.href}
+                  onClick={() => handleNavigate(page)}
                   whileHover={shouldReduceMotion ? undefined : { y: -2 }}
                   transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }}
                 >
@@ -130,10 +137,13 @@ export default function Navbar({ logo, profileName, navItems, activePage, langua
         </div>
 
         <nav className="grid gap-2">
+          <a className={`rounded-2xl border px-4 py-3 font-semibold transition ${activePage === 'home' ? 'border-[#f5c27a]/[0.35] bg-[#f5c27a]/[0.12] text-white' : 'border-white/[0.08] bg-white/[0.03] text-white/[0.78]'}`} href="#home" onClick={() => handleNavigate('home')}>
+            {homeLabel}
+          </a>
           {navItems.map((item) => {
             const page = item.href.replace('#', '') as PageId
             return (
-              <a key={item.href} className={`rounded-2xl border px-4 py-3 font-semibold transition ${activePage === page ? 'border-[#f5c27a]/[0.35] bg-[#f5c27a]/[0.12] text-white' : 'border-white/[0.08] bg-white/[0.03] text-white/[0.78]'}`} href={item.href} onClick={() => setIsOpen(false)}>
+              <a key={item.href} className={`rounded-2xl border px-4 py-3 font-semibold transition ${activePage === page ? 'border-[#f5c27a]/[0.35] bg-[#f5c27a]/[0.12] text-white' : 'border-white/[0.08] bg-white/[0.03] text-white/[0.78]'}`} href={item.href} onClick={() => handleNavigate(page)}>
                 {item.label}
               </a>
             )
@@ -148,7 +158,7 @@ export default function Navbar({ logo, profileName, navItems, activePage, langua
           ))}
         </div>
 
-        <a className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#f5c27a] to-[#b87333] px-5 py-3 font-bold text-[#120b05]" href="#contact" onClick={() => setIsOpen(false)}>
+        <a className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#f5c27a] to-[#b87333] px-5 py-3 font-bold text-[#120b05]" href="#contact" onClick={() => handleNavigate('contact')}>
           {ctaLabel}
           <ArrowRight size={16} />
         </a>
