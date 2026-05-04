@@ -53,6 +53,7 @@ type TranslationSet = {
 
 const projectLinks = {
   github: 'https://github.com/LatipovYusuf444',
+  erp: 'https://erp-solution-orcin.vercel.app/',
   mirano: 'https://mirano-text.vercel.app/',
   tripzyy: 'https://tripzyy.vercel.app/',
   service: 'https://example.com',
@@ -129,7 +130,7 @@ export const translations: Record<AppLanguage, TranslationSet> = {
       live: "Jonli ko'rish",
       categories: { all: 'Barchasi', landing: 'Landing sahifa', erp: 'ERP interfeys', website: 'Web-sayt' },
       items: [
-        { category: 'erp', title: 'ERP System UI', description: "Ichki tizim uchun dashboard, jadval, form va boshqaruv modullaridan iborat frontend interfeyslar.", tech: ['React', 'TypeScript', 'Dashboard UI'], image: 'ERP interfeys, analitika bloklari va boshqaruv paneli', imageSrc: erpImage, github: projectLinks.github, live: projectLinks.github },
+        { category: 'erp', title: 'ERP System UI', description: "Ichki tizim uchun dashboard, jadval, form va boshqaruv modullaridan iborat frontend interfeyslar.", tech: ['React', 'TypeScript', 'Dashboard UI'], image: 'ERP interfeys, analitika bloklari va boshqaruv paneli', imageSrc: erpImage, github: projectLinks.github, live: projectLinks.erp },
         { category: 'landing', title: 'Mirano Landing Page', description: "Brend, xizmat va portfolio ni premium ko'rinishda taqdim etuvchi zamonaviy marketing sahifasi.", tech: ['React', 'Tailwind', 'Framer Motion'], image: 'Hashamatli landing sahifa, tipografiya va yorqin CTA bloklari', imageSrc: landingPageImage, github: projectLinks.github, live: projectLinks.mirano },
         { category: 'website', title: 'Tripzyy Web Sayt', description: "Kompaniya haqida, xizmatlar, portfolio va aloqa bo'limlariga ega professional korporativ sayt.", tech: ['Frontend', 'Responsive', 'SEO'], image: 'Korporativ sahifa, kontent bloklari va premium fon', imageSrc: tripzyyImage, github: projectLinks.github, live: projectLinks.tripzyy },
       ],
@@ -221,7 +222,7 @@ export const translations: Record<AppLanguage, TranslationSet> = {
       live: 'Live Demo',
       categories: { all: 'Все', landing: 'Landing Page', erp: 'ERP UI', website: 'Веб-сайт' },
       items: [
-        { category: 'erp', title: 'ERP System UI', description: 'Frontend интерфейсы для внутренней системы: dashboard, таблицы, формы и управленческие модули.', tech: ['React', 'TypeScript', 'Dashboard UI'], image: 'ERP интерфейс, блоки аналитики и панель управления', imageSrc: erpImage, github: projectLinks.github, live: projectLinks.github },
+        { category: 'erp', title: 'ERP System UI', description: 'Frontend интерфейсы для внутренней системы: dashboard, таблицы, формы и управленческие модули.', tech: ['React', 'TypeScript', 'Dashboard UI'], image: 'ERP интерфейс, блоки аналитики и панель управления', imageSrc: erpImage, github: projectLinks.github, live: projectLinks.erp },
         { category: 'landing', title: 'Mirano Landing Page', description: 'Современная маркетинговая страница, которая премиально презентует бренд, услуги и портфолио.', tech: ['React', 'Tailwind', 'Framer Motion'], image: 'Luxury landing page, типографика и яркие CTA блоки', imageSrc: landingPageImage, github: projectLinks.github, live: projectLinks.mirano },
         { category: 'website', title: 'Tripzyy Web Sayt', description: 'Профессиональный корпоративный сайт с разделами о компании, услугах, портфолио и контактах.', tech: ['Frontend', 'Responsive', 'SEO'], image: 'Корпоративная страница, контентные блоки и премиальный фон', imageSrc: tripzyyImage, github: projectLinks.github, live: projectLinks.tripzyy },
       ],
@@ -313,7 +314,7 @@ export const translations: Record<AppLanguage, TranslationSet> = {
       live: 'Live Demo',
       categories: { all: 'All', landing: 'Landing Page', erp: 'ERP UI', website: 'Website' },
       items: [
-        { category: 'erp', title: 'ERP System UI', description: 'Frontend interfaces for an internal system with dashboards, tables, forms, and management modules.', tech: ['React', 'TypeScript', 'Dashboard UI'], image: 'ERP interface, analytics blocks, and control panel', imageSrc: erpImage, github: projectLinks.github, live: projectLinks.github },
+        { category: 'erp', title: 'ERP System UI', description: 'Frontend interfaces for an internal system with dashboards, tables, forms, and management modules.', tech: ['React', 'TypeScript', 'Dashboard UI'], image: 'ERP interface, analytics blocks, and control panel', imageSrc: erpImage, github: projectLinks.github, live: projectLinks.erp },
         { category: 'landing', title: 'Mirano Landing Page', description: 'A modern marketing page that presents brand, services, and portfolio in a premium style.', tech: ['React', 'Tailwind', 'Framer Motion'], image: 'Luxury landing page with typography and bright CTA blocks', imageSrc: landingPageImage, github: projectLinks.github, live: projectLinks.mirano },
         { category: 'website', title: 'Tripzyy Website', description: 'A professional corporate website with company, services, portfolio, and contact sections.', tech: ['Frontend', 'Responsive', 'SEO'], image: 'Corporate page with content blocks and premium background', imageSrc: tripzyyImage, github: projectLinks.github, live: projectLinks.tripzyy },
       ],
