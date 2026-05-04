@@ -1,6 +1,9 @@
 import { motion } from 'framer-motion'
-import { ArrowRight, BookOpen, BriefcaseBusiness, ChevronUp, FileText, FolderOpen, Github, Globe, Instagram, Linkedin, Mail, MapPin, Newspaper, Phone, Send } from 'lucide-react'
-import footerLogo from '../assets/logo.yusuf.png'
+import { useState } from 'react'
+import { createPortal } from 'react-dom'
+import { ArrowRight, BookOpen, BriefcaseBusiness, ChevronUp, FileText, FolderOpen, Github, Globe, Instagram, Linkedin, Mail, MapPin, Newspaper, Phone, Send, X } from 'lucide-react'
+import footerLogo from '../assets/logo.bgyoq.png'
+import resumeImage from '../assets/yusuf_resume_mobile.svg'
 import { footerContent, profile } from '../content/siteContent'
 import type { AppLanguage } from '../i18n'
 
@@ -17,16 +20,51 @@ type SiteFooterProps = {
 
 function SiteFooter({ footer, footerDescription, rights, navItems, reduceMotion, onScrollToTop }: SiteFooterProps) {
   const scrollToTop = onScrollToTop
+  const [isResumeOpen, setIsResumeOpen] = useState(false)
+  const resumeModal = isResumeOpen ? createPortal(
+    <motion.div
+      className="resume-modal"
+      initial={reduceMotion ? false : { opacity: 0 }}
+      animate={{ opacity: 1 }}
+      role="dialog"
+      aria-modal="true"
+      aria-label="Resume preview"
+      onClick={() => setIsResumeOpen(false)}
+    >
+      <motion.div
+        className="resume-modal__panel"
+        initial={reduceMotion ? false : { opacity: 0, y: 28, scale: 0.96 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
+        onClick={(event) => event.stopPropagation()}
+      >
+        <div className="resume-modal__header">
+          <div>
+            <p className="resume-modal__eyebrow">Resume</p>
+            <h2>{profile.name}</h2>
+          </div>
+          <button className="resume-modal__close" type="button" onClick={() => setIsResumeOpen(false)} aria-label="Close resume preview">
+            <X size={18} />
+          </button>
+        </div>
+        <div className="resume-preview">
+          <img className="resume-preview__image" src={resumeImage} alt={`${profile.name} resume`} />
+        </div>
+      </motion.div>
+    </motion.div>,
+    document.body,
+  ) : null
 
   return (
-    <footer className="footer-luxury relative z-10 px-5 py-5 lg:px-10 xl:px-12">
-      <motion.div
-        className="footer-luxury__inner relative overflow-hidden rounded-[1.1rem] border border-[#F5B971]/20 bg-[#05070d] px-5 py-7 shadow-[0_28px_90px_-55px_rgba(245,185,113,0.5)] lg:px-8"
-        initial={reduceMotion ? false : { opacity: 0, y: 28 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.18 }}
-        transition={{ duration: 0.68, ease: [0.22, 1, 0.36, 1] }}
-      >
+    <>
+      <footer className="footer-luxury relative z-10 px-5 py-5 lg:px-10 xl:px-12">
+        <motion.div
+          className="footer-luxury__inner relative overflow-hidden rounded-[1.1rem] border border-[#F5B971]/20 bg-[#05070d] px-5 py-7 shadow-[0_28px_90px_-55px_rgba(245,185,113,0.5)] lg:px-8"
+          initial={reduceMotion ? false : { opacity: 0, y: 28 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.18 }}
+          transition={{ duration: 0.68, ease: [0.22, 1, 0.36, 1] }}
+        >
         <div className="relative z-10 grid gap-7 lg:grid-cols-[1.35fr_0.82fr_0.9fr_1.15fr_1.15fr]">
           <div className="footer-luxury__brand">
             <div className="flex items-center gap-3">
@@ -55,6 +93,14 @@ function SiteFooter({ footer, footerDescription, rights, navItems, reduceMotion,
               {footer.resourcesList.map((item, index) => {
                 const icons = [Newspaper, Globe, FileText, FolderOpen]
                 const Icon = icons[index] ?? BookOpen
+                if (index === 2) {
+                  return (
+                    <button key={item} className="footer-link footer-link-button" type="button" onClick={() => setIsResumeOpen(true)}>
+                      <Icon size={16} />{item}
+                    </button>
+                  )
+                }
+
                 return <a key={item} className="footer-link" href="#projects"><Icon size={16} />{item}</a>
               })}
             </div>
@@ -101,8 +147,10 @@ function SiteFooter({ footer, footerDescription, rights, navItems, reduceMotion,
             </button>
           </div>
         </div>
-      </motion.div>
-    </footer>
+        </motion.div>
+      </footer>
+      {resumeModal}
+    </>
   )
 }
 

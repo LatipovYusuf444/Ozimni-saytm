@@ -30,6 +30,11 @@ export default function Navbar({ logo, profileName, navItems, activePage, homeLa
   const [isOpen, setIsOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
   const shouldReduceMotion = useReducedMotion()
+  const languageOptions = [
+    { code: 'uz', label: 'UZ' },
+    { code: 'en', label: 'ENG' },
+    { code: 'ru', label: 'RUS' },
+  ] as const
 
   useEffect(() => {
     if (!isOpen) return
@@ -96,14 +101,14 @@ export default function Navbar({ logo, profileName, navItems, activePage, homeLa
 
           <div className="hidden items-center gap-2 lg:flex">
             <div className="flex items-center gap-2">
-              {(['uz', 'ru', 'en'] as const).map((code) => (
+              {languageOptions.map(({ code, label }) => (
                 <button
                   key={code}
                   type="button"
                   className={`h-10 min-w-10 rounded-full text-[0.78rem] font-extrabold uppercase tracking-[0.1em] transition ${language === code ? 'bg-gradient-to-br from-[#F5B971] to-[#EAA14A] text-[#120b05] shadow-[0_0_22px_rgba(245,185,113,0.34)]' : 'text-white/[0.72] hover:text-white'}`}
                   onClick={() => onLanguageChange(code)}
                 >
-                  {code}
+                  {label}
                 </button>
               ))}
             </div>
@@ -151,9 +156,9 @@ export default function Navbar({ logo, profileName, navItems, activePage, homeLa
         </nav>
 
         <div className="mt-5 flex gap-2">
-          {(['uz', 'ru', 'en'] as const).map((code) => (
+          {languageOptions.map(({ code, label }) => (
             <button key={code} type="button" className={`h-10 flex-1 rounded-full text-xs font-bold uppercase tracking-[0.12em] ${language === code ? 'bg-[#f5c27a] text-[#120b05]' : 'bg-white/[0.04] text-white/70'}`} onClick={() => onLanguageChange(code)}>
-              {code}
+              {label}
             </button>
           ))}
         </div>

@@ -3,6 +3,7 @@ import { ArrowRight, Atom, BadgeCheck, Boxes, CircuitBoard, Sparkles, Star, Work
 import avatarOne from '../assets/avatars/avatar-1.svg'
 import avatarTwo from '../assets/avatars/avatar-2.svg'
 import avatarThree from '../assets/avatars/avatar-3.svg'
+import mobileHeroImage from '../assets/images/mobile.webp'
 import { fadeUp, revealFromLeft, smoothEase, staggerContainer } from '../lib/motion'
 import FeatureCard from './FeatureCard'
 
@@ -59,7 +60,7 @@ export default function Hero({ pill, role, title, description, primaryAction, se
   return (
     <section className="relative isolate flex min-h-screen items-center overflow-hidden bg-black text-white">
       <video
-        className="pointer-events-none absolute inset-0 z-0 h-full min-h-screen w-full object-cover opacity-100"
+        className="hero-video-bg pointer-events-none absolute inset-0 z-0 h-full min-h-screen w-full object-cover opacity-100"
         autoPlay
         muted
         loop
@@ -69,6 +70,7 @@ export default function Hero({ pill, role, title, description, primaryAction, se
       >
         <source src="/videos/hero-code.mp4" type="video/mp4" />
       </video>
+      <img className="hero-mobile-bg" src={mobileHeroImage} alt="" aria-hidden="true" />
       <div className="absolute inset-0 z-[1] bg-[linear-gradient(90deg,rgba(3,7,18,0.82)_0%,rgba(3,7,18,0.52)_42%,rgba(3,7,18,0.12)_72%,rgba(3,7,18,0)_100%)] sm:bg-[linear-gradient(90deg,rgba(3,7,18,0.78)_0%,rgba(3,7,18,0.45)_38%,rgba(3,7,18,0.08)_68%,rgba(3,7,18,0)_100%)]" />
       <div className="absolute inset-0 z-[1] bg-[linear-gradient(180deg,rgba(3,7,18,0.12)_0%,rgba(3,7,18,0)_36%,rgba(3,7,18,0.34)_100%)]" />
       <div className="absolute inset-0 z-[2] opacity-10 [background-image:linear-gradient(rgba(245,185,113,0.035)_1px,transparent_1px),linear-gradient(90deg,rgba(245,185,113,0.03)_1px,transparent_1px)] [background-size:56px_56px]" />

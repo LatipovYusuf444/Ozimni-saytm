@@ -1,7 +1,7 @@
 import { BadgeCheck, BriefcaseBusiness, Code2, Globe, LayoutDashboard, MonitorSmartphone, Paintbrush, Sparkles, Star, Wrench } from 'lucide-react'
 import erpImage from './assets/ERP.png'
 import landingPageImage from './assets/LandingPage.png'
-import tripzyyImage from './assets/Tripzyy.web.png'
+import tripzyyImage from './assets/Tripzyy.png'
 
 export type ProjectCategory = 'all' | 'landing' | 'erp' | 'website'
 export type ContactSubmitState = 'idle' | 'success' | 'error' | 'unconfigured'
@@ -132,7 +132,6 @@ export const translations: Record<AppLanguage, TranslationSet> = {
         { category: 'erp', title: 'ERP System UI', description: "Ichki tizim uchun dashboard, jadval, form va boshqaruv modullaridan iborat frontend interfeyslar.", tech: ['React', 'TypeScript', 'Dashboard UI'], image: 'ERP interfeys, analitika bloklari va boshqaruv paneli', imageSrc: erpImage, github: projectLinks.github, live: projectLinks.github },
         { category: 'landing', title: 'Mirano Landing Page', description: "Brend, xizmat va portfolio ni premium ko'rinishda taqdim etuvchi zamonaviy marketing sahifasi.", tech: ['React', 'Tailwind', 'Framer Motion'], image: 'Hashamatli landing sahifa, tipografiya va yorqin CTA bloklari', imageSrc: landingPageImage, github: projectLinks.github, live: projectLinks.mirano },
         { category: 'website', title: 'Tripzyy Web Sayt', description: "Kompaniya haqida, xizmatlar, portfolio va aloqa bo'limlariga ega professional korporativ sayt.", tech: ['Frontend', 'Responsive', 'SEO'], image: 'Korporativ sahifa, kontent bloklari va premium fon', imageSrc: tripzyyImage, github: projectLinks.github, live: projectLinks.tripzyy },
-        { category: 'website', title: 'Service Company Website', description: "Xizmat ko'rsatuvchi biznes uchun ishonch uyg'otadigan va mobilga mos sayt interfeysi.", tech: ['Website UI', 'Tailwind', 'Responsive'], image: 'Xizmat sahifasi, CTA bloklar va toza layout', github: projectLinks.github, live: projectLinks.service },
       ],
     },
     services: {
@@ -225,7 +224,6 @@ export const translations: Record<AppLanguage, TranslationSet> = {
         { category: 'erp', title: 'ERP System UI', description: 'Frontend интерфейсы для внутренней системы: dashboard, таблицы, формы и управленческие модули.', tech: ['React', 'TypeScript', 'Dashboard UI'], image: 'ERP интерфейс, блоки аналитики и панель управления', imageSrc: erpImage, github: projectLinks.github, live: projectLinks.github },
         { category: 'landing', title: 'Mirano Landing Page', description: 'Современная маркетинговая страница, которая премиально презентует бренд, услуги и портфолио.', tech: ['React', 'Tailwind', 'Framer Motion'], image: 'Luxury landing page, типографика и яркие CTA блоки', imageSrc: landingPageImage, github: projectLinks.github, live: projectLinks.mirano },
         { category: 'website', title: 'Tripzyy Web Sayt', description: 'Профессиональный корпоративный сайт с разделами о компании, услугах, портфолио и контактах.', tech: ['Frontend', 'Responsive', 'SEO'], image: 'Корпоративная страница, контентные блоки и премиальный фон', imageSrc: tripzyyImage, github: projectLinks.github, live: projectLinks.tripzyy },
-        { category: 'website', title: 'Service Company Website', description: 'Интерфейс сайта для сервисного бизнеса, который вызывает доверие и адаптирован под мобильные устройства.', tech: ['Website UI', 'Tailwind', 'Responsive'], image: 'Страница услуг, CTA блоки и чистый layout', github: projectLinks.github, live: projectLinks.service },
       ],
     },
     services: {
@@ -318,7 +316,6 @@ export const translations: Record<AppLanguage, TranslationSet> = {
         { category: 'erp', title: 'ERP System UI', description: 'Frontend interfaces for an internal system with dashboards, tables, forms, and management modules.', tech: ['React', 'TypeScript', 'Dashboard UI'], image: 'ERP interface, analytics blocks, and control panel', imageSrc: erpImage, github: projectLinks.github, live: projectLinks.github },
         { category: 'landing', title: 'Mirano Landing Page', description: 'A modern marketing page that presents brand, services, and portfolio in a premium style.', tech: ['React', 'Tailwind', 'Framer Motion'], image: 'Luxury landing page with typography and bright CTA blocks', imageSrc: landingPageImage, github: projectLinks.github, live: projectLinks.mirano },
         { category: 'website', title: 'Tripzyy Website', description: 'A professional corporate website with company, services, portfolio, and contact sections.', tech: ['Frontend', 'Responsive', 'SEO'], image: 'Corporate page with content blocks and premium background', imageSrc: tripzyyImage, github: projectLinks.github, live: projectLinks.tripzyy },
-        { category: 'website', title: 'Service Company Website', description: 'A trust-building and mobile-friendly website interface for a service business.', tech: ['Website UI', 'Tailwind', 'Responsive'], image: 'Service page with CTA blocks and a clean layout', github: projectLinks.github, live: projectLinks.service },
       ],
     },
     services: {

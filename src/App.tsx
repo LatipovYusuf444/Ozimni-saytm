@@ -3,7 +3,7 @@ import { useReducedMotion } from 'framer-motion'
 import brandLogo from './assets/logo.bgyoq.png'
 import Navbar from './components/Navbar'
 import SiteFooter from './components/SiteFooter'
-import { aboutPageContent, caseStudyContent, footerContent, formspreeEndpoint, getPageFromHash, profile, type PageId } from './content/siteContent'
+import { aboutPageContent, footerContent, formspreeEndpoint, getPageFromHash, profile, type PageId } from './content/siteContent'
 import { translations, type AppLanguage, type ContactSubmitState, type ProjectCategory } from './i18n'
 import AboutPage from './pages/AboutPage'
 import ContactPage from './pages/ContactPage'
@@ -19,7 +19,7 @@ function App() {
     const [isSubscribed, setIsSubscribed] = useState(false)
     const [language, setLanguage] = useState<AppLanguage>(() => {
       const savedLanguage = window.localStorage.getItem('app-language')
-      return savedLanguage === 'uz' || savedLanguage === 'ru' || savedLanguage === 'en' ? savedLanguage : 'uz'
+      return savedLanguage === 'uz' || savedLanguage === 'ru' || savedLanguage === 'en' ? savedLanguage : 'ru'
     })
     const [activeCategory, setActiveCategory] = useState<ProjectCategory>('all')
     const [activePage, setActivePage] = useState<PageId>(() => getPageFromHash())
@@ -156,7 +156,6 @@ function App() {
             categories={categories}
             activeCategory={activeCategory}
             visibleProjects={visibleProjects}
-            caseStudy={caseStudyContent[language]}
             onCategoryChange={setActiveCategory}
           />
         ) : null}
