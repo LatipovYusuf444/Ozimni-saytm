@@ -53,7 +53,7 @@ type TranslationSet = {
 
 const projectLinks = {
   github: 'https://github.com/LatipovYusuf444',
-  erp: 'https://erp-solution-orcin.vercel.app/',
+  erp: 'http://77.83.206.97:8080/',
   mirano: 'https://mirano-text.vercel.app/',
   tripzyy: 'https://tripzyy.vercel.app/',
   service: 'https://example.com',
