@@ -283,7 +283,7 @@ export const aboutPageContent = {
     projectsButton: 'Mening loyihalarim',
     cvButton: 'Mening CV',
     stats: [
-      { value: '2+', label: 'Tajriba' },
+      { value: '1+', label: 'Tajriba' },
       { value: '10+', label: 'Loyihalar' },
       { value: '10+', label: 'Mamnun mijozlar' },
       { value: '100%', label: 'Sifatga intilish' },
@@ -312,7 +312,7 @@ export const aboutPageContent = {
     projectsButton: 'Мои проекты',
     cvButton: 'Моё CV',
     stats: [
-      { value: '2+', label: 'Опыт' },
+      { value: '1+', label: 'Опыт' },
       { value: '10+', label: 'Проектов' },
       { value: '10+', label: 'Довольных клиентов' },
       { value: '100%', label: 'Фокус на качестве' },
@@ -341,7 +341,7 @@ export const aboutPageContent = {
     projectsButton: 'My projects',
     cvButton: 'My CV',
     stats: [
-      { value: '2+', label: 'Experience' },
+      { value: '1+', label: 'Experience' },
       { value: '10+', label: 'Projects' },
       { value: '10+', label: 'Happy clients' },
       { value: '100%', label: 'Quality focus' },

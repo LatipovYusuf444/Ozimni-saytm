@@ -1,8 +1,5 @@
 import { motion, useReducedMotion } from 'framer-motion'
-import { ArrowRight, Atom, BadgeCheck, Boxes, CircuitBoard, Sparkles, Star, Workflow } from 'lucide-react'
-import avatarOne from '../assets/avatars/avatar-1.svg'
-import avatarTwo from '../assets/avatars/avatar-2.svg'
-import avatarThree from '../assets/avatars/avatar-3.svg'
+import { ArrowRight, Atom, BadgeCheck, Boxes, CircuitBoard, Sparkles, Workflow } from 'lucide-react'
 import mobileHeroImage from '../assets/images/mobile.webp'
 import { fadeUp, revealFromLeft, smoothEase, staggerContainer } from '../lib/motion'
 import FeatureCard from './FeatureCard'
@@ -19,7 +16,6 @@ type HeroProps = {
 }
 
 const featureIcons = [CircuitBoard, Workflow, Atom, Boxes, BadgeCheck]
-const avatars = [avatarOne, avatarTwo, avatarThree]
 const featureDescriptions = [
   'Zamonaviy va modullar asosida tuzilgan arxitektura.',
   'Biznes jarayonlarini chuqur tushunib, frontendda aks ettiramiz.',
@@ -126,28 +122,6 @@ export default function Hero({ pill, role, title, description, primaryAction, se
               </motion.a>
             </motion.div>
 
-            <motion.div className="mt-5 flex items-center gap-3 sm:mt-6 sm:gap-5" variants={fadeUp}>
-              <div className="avatar-stack flex -space-x-3">
-                {avatars.map((avatar, index) => (
-                  <img
-                    key={avatar}
-                    className="avatar-stack__item h-9 w-9 rounded-full border-2 border-[#05070d] object-cover shadow-[0_10px_28px_-12px_rgba(245,185,113,0.65)] sm:h-10 sm:w-10"
-                    src={avatar}
-                    alt=""
-                    loading="eager"
-                    style={{ animationDelay: `${index * 140}ms` }}
-                  />
-                ))}
-              </div>
-              <div>
-                <div className="flex items-center gap-0.5 text-[#F5B971]">
-                  {Array.from({ length: 5 }).map((_, index) => (
-                    <Star key={index} size={13} fill="currentColor" strokeWidth={1.6} className="drop-shadow-[0_0_8px_rgba(245,185,113,0.35)] sm:size-[14px]" />
-                  ))}
-                </div>
-                <div className="mt-1 text-[0.72rem] text-white/[0.72] sm:text-[0.78rem]">10+ loyiha muvaffaqiyatli bajarilgan</div>
-              </div>
-            </motion.div>
           </div>
 
           <div className="hidden lg:block" />

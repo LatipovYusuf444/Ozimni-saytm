@@ -1156,13 +1156,31 @@
 }
 
 .about-tech-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.75rem;
+  --about-tech-gap: 0.85rem;
+  --about-tech-half-gap: 0.425rem;
+  position: relative;
+  display: block;
+  overflow: hidden;
   margin-top: 1.25rem;
+  padding: 0.1rem 0;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+}
+
+.about-tech-track {
+  display: flex;
+  width: max-content;
+  gap: var(--about-tech-gap);
+  will-change: transform;
+  animation: about-tech-carousel 28s linear infinite;
+}
+
+.about-tech-grid:hover .about-tech-track {
+  animation-play-state: paused;
 }
 
 .about-tech-item {
+  flex: 0 0 clamp(8.8rem, 11vw, 11.6rem);
   display: grid;
   gap: 0.65rem;
   place-items: center;
@@ -1211,6 +1229,28 @@
   color: #fffaf3;
   font-size: 0.78rem;
   font-weight: 800;
+}
+
+@keyframes about-tech-carousel {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    transform: translate3d(calc(-50% - var(--about-tech-half-gap)), 0, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .about-tech-track {
+    width: auto;
+    flex-wrap: wrap;
+    animation: none;
+  }
+
+  .about-tech-item[aria-hidden='true'] {
+    display: none;
+  }
 }
 
 .about-cta-panel {
@@ -3062,8 +3102,10 @@ button,
   }
 
   .services-bg {
-    opacity: 0.48;
-    object-position: center top;
+    opacity: 0.78;
+    object-position: 22% top;
+    filter: saturate(1.05) contrast(1.08) brightness(0.86);
+    transform: scale(1.04);
   }
 
   .contact-bg {
@@ -3073,8 +3115,8 @@ button,
 
   .services-page::before {
     background:
-      linear-gradient(180deg, rgba(5, 7, 13, 0.5) 0%, rgba(6, 9, 18, 0.66) 52%, rgba(5, 7, 13, 0.9) 100%),
-      linear-gradient(90deg, rgba(5, 7, 13, 0.68), rgba(5, 7, 13, 0.28), rgba(5, 7, 13, 0.68));
+      linear-gradient(180deg, rgba(5, 7, 13, 0.28) 0%, rgba(6, 9, 18, 0.46) 52%, rgba(5, 7, 13, 0.74) 100%),
+      linear-gradient(90deg, rgba(5, 7, 13, 0.36), rgba(5, 7, 13, 0.12), rgba(5, 7, 13, 0.5));
   }
 
   .contact-page::before {
@@ -3130,6 +3172,13 @@ button,
 
   .services-grid {
     gap: 0.85rem;
+  }
+
+  .services-page .service-card {
+    background:
+      radial-gradient(circle at top right, rgba(245, 185, 113, 0.08), transparent 34%),
+      linear-gradient(180deg, rgba(12, 20, 34, 0.58), rgba(5, 7, 13, 0.46)) !important;
+    backdrop-filter: blur(9px) saturate(118%) !important;
   }
 
   .contact-copy,
@@ -3327,11 +3376,19 @@ button,
   }
 
   .about-tech-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 0.55rem;
+    --about-tech-gap: 0.6rem;
+    --about-tech-half-gap: 0.3rem;
+    margin-top: 1rem;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+  }
+
+  .about-tech-track {
+    animation-duration: 24s;
   }
 
   .about-tech-item {
+    flex-basis: clamp(6.7rem, 38vw, 8rem);
     min-height: 5.6rem;
     padding: 0.65rem 0.35rem;
     border-radius: 0.85rem;

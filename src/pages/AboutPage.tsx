@@ -13,13 +13,6 @@ type AboutPageProps = {
   aboutPage: AboutPageContent
 }
 
-const EXPERIENCE_START = new Date(2025, 9, 1)
-
-function getExperienceMonths() {
-  const now = new Date()
-  return Math.max(0, (now.getFullYear() - EXPERIENCE_START.getFullYear()) * 12 + now.getMonth() - EXPERIENCE_START.getMonth())
-}
-
 const aboutReveal: Record<'left' | 'right' | 'up' | 'down' | 'zoom', Variants> = {
   left: {
     hidden: { opacity: 0, x: -54, filter: 'blur(12px)' },
@@ -44,7 +37,6 @@ const aboutReveal: Record<'left' | 'right' | 'up' | 'down' | 'zoom', Variants> =
 }
 
 function AboutPage({ aboutPage }: AboutPageProps) {
-  const experienceMonths = getExperienceMonths()
   const reduceMotion = Boolean(useReducedMotion())
   const motionInitial = reduceMotion ? false : 'hidden'
   const viewport = { once: true, amount: 0.28 }
@@ -75,7 +67,7 @@ function AboutPage({ aboutPage }: AboutPageProps) {
           {aboutPage.stats.map((stat, index) => {
             const icons = [Rocket, Code2, Users, Trophy]
             const Icon = icons[index] ?? Trophy
-            const value = index === 0 ? `${experienceMonths}+` : stat.value
+            const value = stat.value
             const label = stat.label
             const statVariants = [aboutReveal.left, aboutReveal.up, aboutReveal.down, aboutReveal.right]
             return (
@@ -116,15 +108,18 @@ function AboutPage({ aboutPage }: AboutPageProps) {
       <motion.div className="about-tech-panel" initial={motionInitial} whileInView="visible" viewport={viewport} variants={aboutReveal.right}>
         <motion.p className="about-section-label" variants={aboutReveal.down}>{aboutPage.techEyebrow}</motion.p>
         <motion.h2 variants={aboutReveal.right}>{aboutPage.techTitle}</motion.h2>
-        <motion.div className="about-tech-grid" variants={staggerContainer}>
-          {aboutTechItems.map((item, index) => {
-            const techVariants = [aboutReveal.up, aboutReveal.left, aboutReveal.right, aboutReveal.zoom]
-            return (
-            <motion.div key={item} className="about-tech-item" variants={techVariants[index % techVariants.length]}>
-              <span><TechGlyph label={item} /></span>
-              <p>{item === 'Motion' ? 'Framer Motion' : item}</p>
-            </motion.div>
-          )})}
+        <motion.div className="about-tech-grid" variants={aboutReveal.up}>
+          <div className="about-tech-track">
+            {[...aboutTechItems, ...aboutTechItems].map((item, index) => {
+              const techVariants = [aboutReveal.up, aboutReveal.left, aboutReveal.right, aboutReveal.zoom]
+              return (
+                <motion.div key={`${item}-${index}`} className="about-tech-item" variants={techVariants[index % techVariants.length]} aria-hidden={index >= aboutTechItems.length}>
+                  <span><TechGlyph label={item} /></span>
+                  <p>{item === 'Motion' ? 'Framer Motion' : item}</p>
+                </motion.div>
+              )
+            })}
+          </div>
         </motion.div>
       </motion.div>
     
