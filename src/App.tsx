@@ -1,186 +1,243 @@
-import { useEffect, useState, type FormEvent } from 'react'
-import { useReducedMotion } from 'framer-motion'
-import brandLogo from './assets/logo.bgyoq.png'
-import Navbar from './components/Navbar'
-import SiteFooter from './components/SiteFooter'
-import { aboutPageContent, footerContent, formspreeEndpoint, getPageFromHash, profile, type PageId } from './content/siteContent'
-import { translations, type AppLanguage, type ContactSubmitState, type ProjectCategory } from './i18n'
-import AboutPage from './pages/AboutPage'
-import ContactPage from './pages/ContactPage'
-import HomePage from './pages/HomePage'
-import ProjectsPage from './pages/ProjectsPage'
-import ServicesPage from './pages/ServicesPage'
+import { useEffect, useState } from 'react'
+import { motion, useReducedMotion } from 'framer-motion'
+import {
+  ArrowUpRight,
+  Bot,
+  Braces,
+  Code2,
+  Database,
+  Github,
+  Globe2,
+  Instagram,
+  Layers3,
+  Menu,
+  MessageCircle,
+  ServerCog,
+  Sparkles,
+  X,
+  Zap,
+} from 'lucide-react'
+import portrait from './assets/images/ozmnirasmim.webp'
+import codeBg from './assets/images/it_background_hd.webp'
+import autoImage from './assets/LandingPage.png'
+import tripzyImage from './assets/Tripzyy.png'
+import superTourImage from './assets/frontend.png'
+import miranoImage from './assets/images/grid_background_hd.webp'
+import erpImage from './assets/ERP.png'
 import './App.css'
 
-function App() {
-  
-    const [contactState, setContactState] = useState<ContactSubmitState>('idle')
-    const [isSending, setIsSending] = useState(false)
-    const [isSubscribed, setIsSubscribed] = useState(false)
-    const [language, setLanguage] = useState<AppLanguage>(() => {
-      const savedLanguage = window.localStorage.getItem('app-language')
-      return savedLanguage === 'uz' || savedLanguage === 'ru' || savedLanguage === 'en' ? savedLanguage : 'ru'
-    })
-    const [activeCategory, setActiveCategory] = useState<ProjectCategory>('all')
-    const [activePage, setActivePage] = useState<PageId>(() => getPageFromHash())
-    const reduceMotion = Boolean(useReducedMotion())
-  
-    const t = translations[language]
-    const navItems = [
-      { label: t.nav.about, href: '#about' },
-      { label: t.nav.projects, href: '#projects' },
-      { label: t.nav.services, href: '#services' },
-      { label: t.nav.contact, href: '#contact' },
-    ]
-    const categories = (Object.keys(t.projects.categories) as ProjectCategory[]).map((key) => ({ key, label: t.projects.categories[key] }))
-    const filteredProjects = activeCategory === 'all' ? t.projects.items : t.projects.items.filter((project) => project.category === activeCategory)
-    const visibleProjects = filteredProjects
-    const heroStats = language === 'uz'
-      ? [
-        { value: '22+', label: 'Yoshim' },
-        { value: '1+ yil', label: 'Tajriba' },
-        { value: 'ERP / Landing / Web', label: "Asosiy yo'nalishlar" },
-      ]
-      : t.metrics
-    const heroTitle = language === 'uz'
-      ? "Zamonaviy frontend yechimlar\nbiznesingiz uchun."
-      : t.hero.title
-    const heroDescription = language === 'uz'
-      ? 'ERP, landing va biznes saytlar uchun tez, toza va ishonchli frontend.'
-      : t.hero.description
-    const homeLabel = language === 'uz' ? 'Bosh sahifa' : language === 'ru' ? 'Главная' : 'Home'
+const telegram = 'https://t.me/YusufDev_Uz'
+const github = 'https://github.com/LatipovYusuf444'
+const instagram = 'https://instagram.com/ys444v'
 
-    const handleNavigate = (page: PageId) => {
-      setActivePage(page)
-      window.requestAnimationFrame(() => window.scrollTo({ top: 0, behavior: 'smooth' }))
-    }
-  
-    useEffect(() => {
-      if (!profile.analyticsId) return
-      const script = document.createElement('script')
-      script.async = true
-      script.src = `https://www.googletagmanager.com/gtag/js?id=${profile.analyticsId}`
-      document.head.appendChild(script)
-      const inlineScript = document.createElement('script')
-      inlineScript.innerHTML = `window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', '${profile.analyticsId}');`
-      document.head.appendChild(inlineScript)
-      return () => {
-        script.remove()
-        inlineScript.remove()
-      }
-    }, [])
-  
-    useEffect(() => {
-      document.documentElement.lang = language
-      window.localStorage.setItem('app-language', language)
-    }, [language])
-  
-    useEffect(() => {
-      const updatePage = () => {
-        setActivePage(getPageFromHash())
-        window.requestAnimationFrame(() => window.scrollTo({ top: 0, behavior: 'smooth' }))
-      }
-      updatePage()
-      window.addEventListener('hashchange', updatePage)
-      return () => window.removeEventListener('hashchange', updatePage)
-    }, [])
-  
-    useEffect(() => {
-      setActiveCategory('all')
-      setContactState('idle')
-      setIsSubscribed(false)
-    }, [language])
-  
-    const handleContactSubmit = async (event: FormEvent<HTMLFormElement>) => {
-      event.preventDefault()
-      if (!formspreeEndpoint) {
-        setContactState('unconfigured')
-        return
-      }
-      setIsSending(true)
-      setContactState('idle')
-      const form = event.currentTarget
-      try {
-        const response = await fetch(formspreeEndpoint, {
-          method: 'POST',
-          headers: { Accept: 'application/json' },
-          body: new FormData(form),
-        })
-        if (!response.ok) throw new Error('Form submit failed')
-        form.reset()
-        setContactState('success')
-      } catch {
-        setContactState('error')
-      } finally {
-        setIsSending(false)
-      }
-    }
-  
-    const scrollToTop = () => {
-      window.scrollTo({ top: 0, behavior: 'smooth' })
-    }
+const projects = [
+  {
+    name: 'AutoTuning',
+    type: 'Automotive Platform',
+    desc: 'Avtomobil tuning xizmatlari uchun premium web-platforma: zamonaviy UI, xizmatlar, portfolio va backend integratsiyasi.',
+    tech: ['React', 'TypeScript', 'Node.js', 'API'],
+    image: autoImage,
+    url: 'https://auto-tuning-y9nn.vercel.app',
+  },
+  {
+    name: 'Tripzy',
+    type: 'Travel Experience',
+    desc: 'Sayohatni rejalashtirish va turizm xizmatlarini topish uchun responsive travel platforma.',
+    tech: ['React', 'TypeScript', 'Tailwind', 'Vercel'],
+    image: tripzyImage,
+    url: 'https://tripzy.uz',
+  },
+  {
+    name: 'SuperTour',
+    type: 'Travel & Aviation',
+    desc: 'Avia va turizm xizmatlari uchun ko‘p tilli premium sayt, backend va PostgreSQL integratsiyasi bilan.',
+    tech: ['React', 'TypeScript', 'Backend', 'PostgreSQL'],
+    image: superTourImage,
+    url: 'https://super-tour-xi.vercel.app',
+  },
+  {
+    name: 'Mirano Textile',
+    type: 'Corporate Website',
+    desc: 'To‘qimachilik ishlab chiqarish kompaniyasi uchun korporativ, responsive va brendga mos web-sayt.',
+    tech: ['React', 'TypeScript', 'Vite', 'Responsive UI'],
+    image: miranoImage,
+    url: 'https://mirano-text.vercel.app',
+  },
+  {
+    name: 'YePost ERP',
+    type: 'ERP / POS System',
+    desc: 'Savdo, ombor, mijozlar, mahsulotlar va hisobotlarni yagona tizimda boshqarishga mo‘ljallangan ERP/POS platforma.',
+    tech: ['React', 'TypeScript', 'REST API', 'Dashboard'],
+    image: erpImage,
+    url: 'https://ye-post.vercel.app',
+  },
+]
+
+const services = [
+  { icon: Globe2, title: 'Web & Landing', text: 'Tez, premium va barcha ekranlarga mos web-saytlar.' },
+  { icon: ServerCog, title: 'Backend & API', text: 'Node.js backend, REST API va real biznes logikasi.' },
+  { icon: Bot, title: 'Telegram Bot', text: 'Buyurtma, admin, AI va avtomatlashtirish uchun botlar.' },
+  { icon: Database, title: 'Admin & Database', text: 'Admin panellar, PostgreSQL va ma’lumotlar boshqaruvi.' },
+]
+
+const tech = ['React', 'TypeScript', 'Node.js', 'PostgreSQL', 'REST API', 'Tailwind CSS']
+
+function App() {
+  const [menuOpen, setMenuOpen] = useState(false)
+  const reduceMotion = useReducedMotion()
+
+  useEffect(() => {
+    const close = () => setMenuOpen(false)
+    window.addEventListener('resize', close)
+    return () => window.removeEventListener('resize', close)
+  }, [])
+
+  const fade = reduceMotion
+    ? {}
+    : { initial: { opacity: 0, y: 24 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true, amount: 0.18 }, transition: { duration: 0.55 } }
 
   return (
-    <div className="site-shell min-h-screen text-slate-100">
-      <Navbar
-        logo={brandLogo}
-        profileName={profile.name}
-        navItems={navItems}
-        activePage={activePage}
-        homeLabel={homeLabel}
-        language={language}
-        onLanguageChange={setLanguage}
-        onNavigate={handleNavigate}
-        ctaLabel={t.nav.cta}
-        mobileLabels={t.mobileMenu}
-      />
-      <main id={activePage} className="relative z-10">
-        {activePage === 'home' ? (
-          <HomePage
-            pill={t.hero.pill}
-            role={t.profile.role}
-            title={heroTitle}
-            description={heroDescription}
-            primaryAction={t.hero.viewProjects}
-            secondaryAction={t.hero.contact}
-            features={t.hero.marquee}
-            stats={heroStats}
-          />
-        ) : null}
+    <div className="lux-site" style={{ '--code-bg': `url(${codeBg})` } as React.CSSProperties}>
+      <header className="lux-nav">
+        <div className="container nav-inner">
+          <a href="#home" className="brand">
+            <span className="brand-mark">YL</span>
+            <span><b>Yusuf Latipov</b><small>Full-Stack Developer</small></span>
+          </a>
 
-        {activePage === 'about' ? <AboutPage aboutPage={aboutPageContent[language]} /> : null}
+          <nav className="desktop-nav">
+            <a href="#home">Bosh sahifa</a>
+            <a href="#services">Xizmatlar</a>
+            <a href="#projects">Loyihalar</a>
+            <a href="#contact">Murojaat</a>
+          </nav>
 
-        {activePage === 'projects' ? (
-          <ProjectsPage
-            projects={t.projects}
-            categories={categories}
-            activeCategory={activeCategory}
-            visibleProjects={visibleProjects}
-            onCategoryChange={setActiveCategory}
-          />
-        ) : null}
+          <a className="nav-telegram" href={telegram} target="_blank" rel="noreferrer">
+            <MessageCircle size={17}/> Telegram orqali yozish
+          </a>
 
-        {activePage === 'services' ? <ServicesPage services={t.services} /> : null}
+          <button className="menu-button" onClick={() => setMenuOpen(v => !v)} aria-label="Menu">
+            {menuOpen ? <X/> : <Menu/>}
+          </button>
+        </div>
 
-        {activePage === 'contact' ? (
-          <ContactPage
-            contact={t.contact}
-            contactState={contactState}
-            isSending={isSending}
-            isSubscribed={isSubscribed}
-            onContactSubmit={handleContactSubmit}
-            onSubscribe={() => setIsSubscribed(true)}
-          />
-        ) : null}
+        {menuOpen && (
+          <div className="mobile-nav container">
+            <a href="#home" onClick={() => setMenuOpen(false)}>Bosh sahifa</a>
+            <a href="#services" onClick={() => setMenuOpen(false)}>Xizmatlar</a>
+            <a href="#projects" onClick={() => setMenuOpen(false)}>Loyihalar</a>
+            <a href="#contact" onClick={() => setMenuOpen(false)}>Murojaat</a>
+            <a href={telegram} target="_blank" rel="noreferrer">Telegram orqali yozish <ArrowUpRight size={17}/></a>
+          </div>
+        )}
+      </header>
+
+      <main>
+        <section className="hero container" id="home">
+          <motion.div className="hero-copy" {...fade}>
+            <div className="eyebrow"><Sparkles size={16}/> Premium digital solutions</div>
+            <h1>Yusuf <span>Latipov</span></h1>
+            <h2>Full-Stack Developer</h2>
+            <p>G‘oyalarni zamonaviy, tez va real ishlaydigan digital mahsulotlarga aylantiraman — frontend, backend, API va avtomatlashtirish bir joyda.</p>
+
+            <div className="tech-row">
+              {tech.slice(0,4).map((item, i) => <span key={item}>{i === 3 ? <Database size={14}/> : <Code2 size={14}/>} {item}</span>)}
+            </div>
+
+            <div className="hero-actions">
+              <a href={telegram} target="_blank" rel="noreferrer" className="btn primary"><MessageCircle size={18}/> Loyihani muhokama qilish</a>
+              <a href="#projects" className="btn secondary">Loyihalarni ko‘rish <ArrowUpRight size={18}/></a>
+            </div>
+
+            <div className="availability"><i/> Buyurtmalar uchun ochiq <span>•</span> Toshkent / Remote</div>
+          </motion.div>
+
+          <motion.div className="hero-visual" {...fade} transition={{ duration: 0.65, delay: 0.08 }}>
+            <div className="orb orb-a"><Braces size={22}/></div>
+            <div className="orb orb-b"><Database size={21}/></div>
+            <div className="orb orb-c"><Zap size={21}/></div>
+            <div className="portrait-card">
+              <div className="portrait-bar"><span className="dots"><i/><i/><i/></span><small>yusuf.dev</small><em>LIVE</em></div>
+              <div className="portrait-wrap">
+                <img src={portrait} alt="Yusuf Latipov" width="720" height="983" fetchPriority="high"/>
+                <div className="portrait-overlay"/>
+                <div className="portrait-text"><span>BUILD • SHIP • SCALE</span><b>Frontend + Backend + Database + API</b></div>
+              </div>
+            </div>
+          </motion.div>
+        </section>
+
+        <motion.section className="stats container" {...fade}>
+          <div><Layers3/><span><b>5</b><small>Featured loyiha</small></span></div>
+          <div><Braces/><span><b>Full-Stack</b><small>Frontend + Backend</small></span></div>
+          <div><Globe2/><span><b>100%</b><small>Responsive UI</small></span></div>
+          <div><Zap/><span><b>Fast</b><small>Optimized delivery</small></span></div>
+        </motion.section>
+
+        <section className="section container" id="services">
+          <motion.div className="section-head" {...fade}>
+            <div><span>XIZMATLAR</span><h3>G‘oyadan tayyor mahsulotgacha.</h3></div>
+            <p>Dizayn, frontend, backend va integratsiyalarni bir-biriga mos, toza va kengaytirish mumkin bo‘lgan arxitekturada quraman.</p>
+          </motion.div>
+
+          <div className="service-grid">
+            {services.map((s, i) => {
+              const Icon = s.icon
+              return <motion.article className="service-card" key={s.title} {...fade} transition={{ duration: .45, delay: i * .05 }}>
+                <div className="service-icon"><Icon/></div><h4>{s.title}</h4><p>{s.text}</p><span className="accent-line"/>
+              </motion.article>
+            })}
+          </div>
+        </section>
+
+        <section className="section projects-section" id="projects">
+          <div className="container">
+            <motion.div className="section-head" {...fade}>
+              <div><span>PORTFOLIO</span><h3>Tanlangan loyihalarim.</h3></div>
+              <p>Faqat asosiy real loyihalar. Har bir kartadan live saytga o‘tishingiz mumkin.</p>
+            </motion.div>
+
+            <div className="project-grid">
+              {projects.map((p, i) => (
+                <motion.article className={`project-card project-${i+1}`} key={p.name} {...fade} transition={{ duration: .5, delay: (i%3)*.05 }}>
+                  <div className="project-image">
+                    <img src={p.image} alt={p.name} loading="lazy" decoding="async"/>
+                    <div className="project-image-overlay"/>
+                    <span className="project-index">0{i+1}</span>
+                  </div>
+                  <div className="project-content">
+                    <span className="project-type">{p.type}</span>
+                    <h4>{p.name}</h4>
+                    <p>{p.desc}</p>
+                    <div className="stack">{p.tech.map(t => <span key={t}>{t}</span>)}</div>
+                    <a href={p.url} target="_blank" rel="noreferrer">Loyihani ko‘rish <ArrowUpRight size={17}/></a>
+                  </div>
+                </motion.article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="section container" id="contact">
+          <motion.div className="contact-card" {...fade}>
+            <div className="code-widget"><div><i/><i/><i/></div><code><b>const</b> nextProject = <span>"your idea"</span>;<br/><b>return</b> build(nextProject);</code></div>
+            <div><span className="contact-kicker">HAMKORLIK</span><h3>Loyihangizni boshlashga tayyormisiz?</h3><p>G‘oyangizni yozib yuboring. Vazifa, muddat va texnik yechimni muhokama qilib, sizga mos yo‘lni taklif qilaman.</p></div>
+            <a href={telegram} target="_blank" rel="noreferrer" className="btn primary"><MessageCircle size={18}/> Telegram orqali yozish</a>
+          </motion.div>
+        </section>
       </main>
-      <SiteFooter
-        footer={footerContent[language]}
-        footerDescription={t.footer.description}
-        rights={t.footer.rights}
-        navItems={navItems}
-        reduceMotion={reduceMotion}
-        onScrollToTop={scrollToTop}
-      />
+
+      <footer>
+        <div className="container footer-inner">
+          <a href="#home" className="brand"><span className="brand-mark">YL</span><span><b>Yusuf Latipov</b><small>Full-Stack Developer</small></span></a>
+          <div className="socials">
+            <a href={telegram} target="_blank" rel="noreferrer" aria-label="Telegram"><MessageCircle/></a>
+            <a href={github} target="_blank" rel="noreferrer" aria-label="Github"><Github/></a>
+            <a href={instagram} target="_blank" rel="noreferrer" aria-label="Instagram"><Instagram/></a>
+          </div>
+          <small>© 2026 Yusuf Latipov. Barcha huquqlar himoyalangan.</small>
+        </div>
+      </footer>
     </div>
   )
 }
