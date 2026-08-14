@@ -1,6 +1,6 @@
 import { useEffect, useState, type FormEvent } from 'react'
 import { useReducedMotion } from 'framer-motion'
-import brandLogo from './assets/logo.bgyoq.png'
+import brandLogo from './assets/logo-yl-mark.png'
 import Navbar from './components/Navbar'
 import SiteFooter from './components/SiteFooter'
 import { aboutPageContent, footerContent, formspreeEndpoint, getPageFromHash, profile, type PageId } from './content/siteContent'
@@ -10,6 +10,7 @@ import ContactPage from './pages/ContactPage'
 import HomePage from './pages/HomePage'
 import ProjectsPage from './pages/ProjectsPage'
 import ServicesPage from './pages/ServicesPage'
+import TechnologiesPage from './pages/TechnologiesPage'
 import './App.css'
 
 function App() {
@@ -26,29 +27,21 @@ function App() {
     const reduceMotion = Boolean(useReducedMotion())
   
     const t = translations[language]
+    const homeLabel = language === 'uz' ? 'Bosh sahifa' : language === 'ru' ? 'Главная' : 'Home'
     const navItems = [
-      { label: t.nav.about, href: '#about' },
+      { label: homeLabel, href: '#home' },
       { label: t.nav.projects, href: '#projects' },
       { label: t.nav.services, href: '#services' },
+      { label: t.nav.technologies, href: '#technologies' },
+      { label: t.nav.about, href: '#about' },
       { label: t.nav.contact, href: '#contact' },
     ]
     const categories = (Object.keys(t.projects.categories) as ProjectCategory[]).map((key) => ({ key, label: t.projects.categories[key] }))
     const filteredProjects = activeCategory === 'all' ? t.projects.items : t.projects.items.filter((project) => project.category === activeCategory)
     const visibleProjects = filteredProjects
-    const heroStats = language === 'uz'
-      ? [
-        { value: '22+', label: 'Yoshim' },
-        { value: '1+ yil', label: 'Tajriba' },
-        { value: 'ERP / Landing / Web', label: "Asosiy yo'nalishlar" },
-      ]
-      : t.metrics
-    const heroTitle = language === 'uz'
-      ? "Zamonaviy frontend yechimlar\nbiznesingiz uchun."
-      : t.hero.title
-    const heroDescription = language === 'uz'
-      ? 'ERP, landing va biznes saytlar uchun tez, toza va ishonchli frontend.'
-      : t.hero.description
-    const homeLabel = language === 'uz' ? 'Bosh sahifa' : language === 'ru' ? 'Главная' : 'Home'
+    const heroStats = t.metrics
+    const heroTitle = t.hero.title
+    const heroDescription = t.hero.description
 
     const handleNavigate = (page: PageId) => {
       setActivePage(page)
@@ -127,24 +120,25 @@ function App() {
         profileName={profile.name}
         navItems={navItems}
         activePage={activePage}
-        homeLabel={homeLabel}
         language={language}
         onLanguageChange={setLanguage}
         onNavigate={handleNavigate}
         ctaLabel={t.nav.cta}
         mobileLabels={t.mobileMenu}
+        socialLinks={{ github: profile.github, telegram: profile.telegram, instagram: profile.instagram, facebook: profile.facebook, linkedin: profile.linkedin }}
       />
       <main id={activePage} className="relative z-10">
         {activePage === 'home' ? (
           <HomePage
             pill={t.hero.pill}
-            role={t.profile.role}
             title={heroTitle}
+            highlight={t.hero.highlight}
             description={heroDescription}
             primaryAction={t.hero.viewProjects}
             secondaryAction={t.hero.contact}
-            features={t.hero.marquee}
             stats={heroStats}
+            homeServices={t.homeServices}
+            whyChooseUs={t.whyChooseUs}
           />
         ) : null}
 
@@ -157,10 +151,13 @@ function App() {
             activeCategory={activeCategory}
             visibleProjects={visibleProjects}
             onCategoryChange={setActiveCategory}
+            stats={heroStats}
           />
         ) : null}
 
         {activePage === 'services' ? <ServicesPage services={t.services} /> : null}
+
+        {activePage === 'technologies' ? <TechnologiesPage technologies={t.technologies} /> : null}
 
         {activePage === 'contact' ? (
           <ContactPage

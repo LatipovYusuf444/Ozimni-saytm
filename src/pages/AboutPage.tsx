@@ -1,9 +1,8 @@
 import { motion, useReducedMotion, type Variants } from 'framer-motion'
-import { ArrowRight, BookOpen, Code2, Download, Mail, Rocket, Trophy, UserRound, Users } from 'lucide-react'
+import { ArrowRight, ClipboardList, Code2, Download, HeartHandshake, Mail, PenTool, Rocket, TestTube2, Trophy, UserRound, Users } from 'lucide-react'
 import aboutPortrait from '../assets/images/ozmnirasmim.webp'
 import AnimatedSection from '../components/AnimatedSection'
-import TechGlyph from '../components/TechGlyph'
-import { aboutPageContent, aboutTechItems } from '../content/siteContent'
+import { aboutPageContent } from '../content/siteContent'
 import type { AppLanguage } from '../i18n'
 import { smoothEase, staggerContainer } from '../lib/motion'
 
@@ -90,13 +89,13 @@ function AboutPage({ aboutPage }: AboutPageProps) {
         </motion.div>
         <motion.div className="about-path-cards" variants={staggerContainer}>
           {aboutPage.path.map((item, index) => {
-            const icons = [BookOpen, Code2, Rocket]
+            const icons = [ClipboardList, PenTool, Code2, TestTube2, Rocket, HeartHandshake]
             const Icon = icons[index] ?? Rocket
-            const cardVariants = [aboutReveal.left, aboutReveal.up, aboutReveal.right]
+            const cardVariants = [aboutReveal.left, aboutReveal.up, aboutReveal.right, aboutReveal.down, aboutReveal.zoom]
             return (
-              <motion.article key={item.step} className="about-path-card" variants={cardVariants[index] ?? aboutReveal.up}>
+              <motion.article key={item.step} className="about-path-card" variants={cardVariants[index % cardVariants.length] ?? aboutReveal.up}>
                 <span className="about-path-card__step">{item.step}</span>
-                <Icon className="about-path-card__icon" size={30} />
+                <Icon className="about-path-card__icon" size={28} />
                 <h3>{item.title}</h3>
                 <p>{item.text}</p>
               </motion.article>
@@ -104,25 +103,7 @@ function AboutPage({ aboutPage }: AboutPageProps) {
           })}
         </motion.div>
       </motion.div>
-    
-      <motion.div className="about-tech-panel" initial={motionInitial} whileInView="visible" viewport={viewport} variants={aboutReveal.right}>
-        <motion.p className="about-section-label" variants={aboutReveal.down}>{aboutPage.techEyebrow}</motion.p>
-        <motion.h2 variants={aboutReveal.right}>{aboutPage.techTitle}</motion.h2>
-        <motion.div className="about-tech-grid" variants={aboutReveal.up}>
-          <div className="about-tech-track">
-            {[...aboutTechItems, ...aboutTechItems].map((item, index) => {
-              const techVariants = [aboutReveal.up, aboutReveal.left, aboutReveal.right, aboutReveal.zoom]
-              return (
-                <motion.div key={`${item}-${index}`} className="about-tech-item" variants={techVariants[index % techVariants.length]} aria-hidden={index >= aboutTechItems.length}>
-                  <span><TechGlyph label={item} /></span>
-                  <p>{item === 'Motion' ? 'Framer Motion' : item}</p>
-                </motion.div>
-              )
-            })}
-          </div>
-        </motion.div>
-      </motion.div>
-    
+
       <motion.div className="about-cta-panel" initial={motionInitial} whileInView="visible" viewport={viewport} variants={aboutReveal.zoom}>
         <motion.div className="about-cta-panel__icon" variants={aboutReveal.left}><Mail size={34} /></motion.div>
         <motion.div variants={aboutReveal.up}>

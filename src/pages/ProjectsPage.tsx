@@ -1,6 +1,8 @@
 import { motion, useReducedMotion, type Variants } from 'framer-motion'
-import { Github, Globe } from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
+import laptopImage from '../assets/images/noutbuk-code.webp'
 import projectsBg from '../assets/images/fonbg.webp'
+import StatsBar from '../components/StatsBar'
 import { translations, type AppLanguage, type ProjectCategory } from '../i18n'
 import { smoothEase } from '../lib/motion'
 
@@ -12,6 +14,7 @@ type ProjectsPageProps = {
   activeCategory: ProjectCategory
   visibleProjects: ProjectItem[]
   onCategoryChange: (category: ProjectCategory) => void
+  stats: Array<{ value: string; label: string }>
 }
 
 const projectReveal: Record<'left' | 'right' | 'up' | 'down' | 'zoom', Variants> = {
@@ -47,7 +50,21 @@ const projectStagger: Variants = {
   },
 }
 
-function ProjectsPage({ projects, categories, activeCategory, visibleProjects, onCategoryChange }: ProjectsPageProps) {
+function renderGoldTitle(title: string, highlight: string) {
+  if (!highlight) return title
+  const start = title.indexOf(highlight)
+  if (start === -1) return title
+  const end = start + highlight.length
+  return (
+    <>
+      {title.slice(0, start)}
+      <span className="projects-hero__title-gold">{title.slice(start, end)}</span>
+      {title.slice(end)}
+    </>
+  )
+}
+
+function ProjectsPage({ projects, categories, activeCategory, visibleProjects, onCategoryChange, stats }: ProjectsPageProps) {
   const t = { projects }
   const setActiveCategory = onCategoryChange
   const reduceMotion = Boolean(useReducedMotion())
@@ -55,59 +72,72 @@ function ProjectsPage({ projects, categories, activeCategory, visibleProjects, o
   const viewport = { once: true, amount: 0.22 }
 
   return (
-    <>
-    <section id="projects" className="projects-page w-full max-w-none px-3 py-8 sm:px-4 lg:px-6 xl:px-8">
+    <section id="projects" className="projects-page w-full max-w-none">
       <img className="projects-bg" src={projectsBg} alt="" aria-hidden="true" loading="eager" decoding="async" />
       <div className="projects-page__glow" />
-      <motion.div className="projects-header" initial={motionInitial} whileInView="visible" viewport={viewport} variants={projectStagger}>
-        <motion.div variants={projectReveal.left}>
-          <p className="section-eyebrow projects-eyebrow">{t.projects.eyebrow}</p>
-          <h2 className="section-title projects-title">{t.projects.title}</h2>
+
+      <div className="projects-hero">
+        <img className="projects-hero__laptop" src={laptopImage} alt="" aria-hidden="true" loading="eager" decoding="async" />
+        <div className="projects-hero__overlay" />
+        <div className="projects-hero__streak" aria-hidden="true" />
+
+        <motion.div className="projects-hero__content" initial={motionInitial} whileInView="visible" viewport={viewport} variants={projectStagger}>
+          <motion.p className="section-eyebrow projects-eyebrow" variants={projectReveal.down}>{t.projects.eyebrow}</motion.p>
+          <motion.h1 className="projects-hero__title" variants={projectReveal.left}>{renderGoldTitle(t.projects.title, t.projects.titleHighlight)}</motion.h1>
+          <motion.p className="projects-hero__description" variants={projectReveal.up}>{t.projects.description}</motion.p>
         </motion.div>
-        <motion.div className="projects-filters" variants={projectReveal.right}>
-          {categories.map((category) => (
-            <button key={category.key} type="button" className={`filter-pill ${activeCategory === category.key ? 'filter-pill-active' : ''}`} onClick={() => setActiveCategory(category.key)}>
-              {category.label}
-            </button>
-          ))}
-        </motion.div>
+      </div>
+
+      <motion.div className="projects-filters-row" initial={motionInitial} whileInView="visible" viewport={viewport} variants={projectReveal.up}>
+        {categories.map((category) => (
+          <button key={category.key} type="button" className={`filter-pill ${activeCategory === category.key ? 'filter-pill-active' : ''}`} onClick={() => setActiveCategory(category.key)}>
+            {category.label}
+          </button>
+        ))}
       </motion.div>
-      <motion.div className="projects-grid" initial={motionInitial} whileInView="visible" viewport={{ once: true, amount: 0.18 }} variants={projectStagger}>
-        {visibleProjects.map((project, index) => {
-          const cardVariants = [projectReveal.left, projectReveal.up, projectReveal.right, projectReveal.zoom]
-          return (
-          <motion.article key={`${project.category}-${project.title}`} variants={cardVariants[index % cardVariants.length] ?? projectReveal.up} className="project-card group">
-            <a className="project-visual" aria-label={project.image} href={project.live} role="img" target="_blank" rel="noreferrer">
-              <span className="project-badge">{t.projects.categories[project.category]}</span>
-              {project.imageSrc ? (
-                <>
-                  <img className="project-image" src={project.imageSrc} alt={project.title} loading="lazy" decoding="async" />
-                  <div className="project-image-overlay" />
-                </>
-              ) : (
-                <>
-                  <div className="project-lines" />
-                  <div className="project-glow" />
-                </>
-              )}
-            </a>
-            <div className="space-y-4 p-6">
-              <div className="flex items-center justify-between gap-4">
-                <h3 className="text-2xl font-semibold text-slate-50">{project.title}</h3>
-                <span className="text-xs uppercase tracking-[0.24em] text-stone-400">{t.projects.label}</span>
-              </div>
-              <p className="leading-7 text-slate-300">{project.description}</p>
-              <div className="flex flex-wrap gap-2">{project.tech.map((item) => <span key={item} className="tag-chip">{item}</span>)}</div>
-              <div className="flex gap-4 pt-2">
-                <a className="inline-flex items-center gap-2 text-sm font-semibold text-slate-100" href={project.github}><Github size={16} />{t.projects.github}</a>
-                <a className="inline-flex items-center gap-2 text-sm font-semibold text-slate-100" href={project.live}><Globe size={16} />{t.projects.live}</a>
-              </div>
-            </div>
-          </motion.article>
-        )})}
+
+      {visibleProjects.length > 0 ? (
+        <motion.div className="projects-grid" initial={motionInitial} whileInView="visible" viewport={{ once: true, amount: 0.18 }} variants={projectStagger}>
+          {visibleProjects.map((project, index) => {
+            const cardVariants = [projectReveal.left, projectReveal.up, projectReveal.right, projectReveal.zoom]
+            return (
+              <motion.article key={`${project.category}-${project.title}`} variants={cardVariants[index % cardVariants.length] ?? projectReveal.up} className="project-card group">
+                <a className="project-visual" aria-label={project.image} href={project.live} target="_blank" rel="noreferrer">
+                  <span className="project-badge">{t.projects.categories[project.category]}</span>
+                  {project.imageSrc ? (
+                    <>
+                      <img className="project-image" src={project.imageSrc} alt={project.title} loading="lazy" decoding="async" />
+                      <div className="project-image-overlay" />
+                    </>
+                  ) : (
+                    <>
+                      <div className="project-lines" />
+                      <div className="project-glow" />
+                    </>
+                  )}
+                </a>
+                <div className="project-card__body">
+                  <h3 className="project-card__title">{project.title}</h3>
+                  <p className="project-card__text">{project.description}</p>
+                  <a className="project-card__cta" href={project.live} target="_blank" rel="noreferrer">
+                    {t.projects.viewProject}
+                    <ArrowRight size={16} className="transition group-hover:translate-x-1" />
+                  </a>
+                </div>
+              </motion.article>
+            )
+          })}
+        </motion.div>
+      ) : (
+        <motion.div className="projects-empty" initial={motionInitial} whileInView="visible" viewport={{ once: true, amount: 0.4 }} variants={projectReveal.up}>
+          <p>{t.projects.emptyState}</p>
+        </motion.div>
+      )}
+
+      <motion.div className="projects-stats" initial={motionInitial} whileInView="visible" viewport={{ once: true, amount: 0.3 }} variants={projectReveal.up}>
+        <StatsBar stats={stats} />
       </motion.div>
     </section>
-    </>
   )
 }
 

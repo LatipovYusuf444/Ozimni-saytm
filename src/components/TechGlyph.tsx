@@ -110,6 +110,112 @@
     )
   }
 
+  if (label === 'Next.js') {
+    return (
+      <svg viewBox="0 0 64 64" aria-hidden="true">
+        <circle cx="32" cy="32" r="26" fill="#000" />
+        <path fill="#fff" d="M24 21h4.4l16 21.4V21H48v27h-4.3L27.6 26.5V48H24z" />
+      </svg>
+    )
+  }
+
+  if (label === 'Node.js') {
+    return (
+      <svg viewBox="0 0 64 64" aria-hidden="true">
+        <path fill="#3c873a" d="M32 5 8 18v28l24 13 24-13V18z" />
+        <path fill="#fff" d="M32 44c-6.6 0-9.8-3-9.8-3l1.9-2.9s2.9 2.5 8 2.5c2.7 0 4.4-1 4.4-2.4 0-1.6-1.9-2-5-2.6-4.7-.9-8.6-1.9-8.6-6.5 0-4 3.6-6.6 9.1-6.6 5 0 8.3 2.3 8.3 2.3l-1.9 3s-2.7-1.9-6.5-1.9c-2.6 0-4.1.9-4.1 2.3 0 1.5 1.9 1.9 5 2.5 4.6.9 8.5 2 8.5 6.6 0 4.3-3.7 6.7-9.3 6.7z" />
+      </svg>
+    )
+  }
+
+  if (label === 'Express.js') {
+    return (
+      <svg viewBox="0 0 64 64" aria-hidden="true">
+        <rect x="6" y="6" width="52" height="52" rx="14" fill="#111827" />
+        <path fill="#fff" d="M12 39c1.4 1.7 3.7 2.7 6 2.7 3.7 0 6.1-2 6.6-5.3H20c-.4 1.2-1.3 1.9-2.9 1.9-2.1 0-3.4-1.4-3.6-3.6h13.1v-1.3c0-4.9-3-8.2-7.6-8.2-4.7 0-7.9 3.4-7.9 8.1 0 2.3.7 4.2 1.9 5.7zm2-8.7c.4-1.9 1.7-3.1 3.6-3.1 1.9 0 3.1 1.2 3.3 3.1zM33 24.6h4.4l3.4 4.9 3.4-4.9H49l-5.6 7.6L49.3 40h-4.5l-3.7-5.2L37.4 40H33l5.9-7.9z" />
+      </svg>
+    )
+  }
+
+  if (label === 'PostgreSQL') {
+    return (
+      <svg viewBox="0 0 64 64" aria-hidden="true">
+        <circle cx="32" cy="32" r="26" fill="#336791" />
+        <path fill="#fff" d="M32 14c-8.8 0-14.6 6.6-14.6 15.6 0 3.7 1 7.5 2.9 10.6.5.8.6 1.4.4 2.3l-.9 3.4c-.2.8.4 1.5 1.2 1.2l4.1-1.5c.6-.2 1-.2 1.6 0 1.6.5 3.4.8 5.3.8 8.8 0 14.6-6.6 14.6-15.6C46.6 20.6 40.8 14 32 14zm0 4.6c1.7 0 3 1.3 3 3v3.4h2c.7 0 1.3.6 1.3 1.3s-.6 1.3-1.3 1.3h-2v9.1c0 1.7-1.3 3-3 3s-3-1.3-3-3v-9.1h-2c-.7 0-1.3-.6-1.3-1.3s.6-1.3 1.3-1.3h2v-3.4c0-1.7 1.3-3 3-3z" />
+      </svg>
+    )
+  }
+
+  if (label === 'MongoDB') {
+    return (
+      <svg viewBox="0 0 64 64" aria-hidden="true">
+        <path fill="#47a248" d="M32 6c6 8 13 17 13 27a13 13 0 0 1-11 12.8V56h-4v-10.2A13 13 0 0 1 19 33c0-10 7-19 13-27z" />
+        <path fill="#e8f5e9" d="M32 12v34" stroke="#e8f5e9" strokeWidth="1.6" />
+      </svg>
+    )
+  }
+
+  if (label === 'SQLite') {
+    return (
+      <svg viewBox="0 0 64 64" aria-hidden="true">
+        <rect x="6" y="6" width="52" height="52" rx="12" fill="#003b57" />
+        <path fill="#8ec9e0" d="M18 24c0-2.2 6.3-4 14-4s14 1.8 14 4-6.3 4-14 4-14-1.8-14-4z" />
+        <path fill="#fff" d="M18 24v16c0 2.2 6.3 4 14 4s14-1.8 14-4V24c0 2.2-6.3 4-14 4s-14-1.8-14-4z" opacity="0.92" />
+      </svg>
+    )
+  }
+
+  if (label === 'Docker') {
+    return (
+      <svg viewBox="0 0 64 64" aria-hidden="true">
+        <rect x="4" y="4" width="56" height="56" rx="14" fill="#2496ed" />
+        <g fill="#fff">
+          <rect x="16" y="28" width="7" height="7" />
+          <rect x="25" y="28" width="7" height="7" />
+          <rect x="34" y="28" width="7" height="7" />
+          <rect x="25" y="19" width="7" height="7" />
+          <rect x="34" y="19" width="7" height="7" />
+        </g>
+        <path fill="#fff" d="M12 32c0 8 6.5 13 15.5 13 11 0 18-5.6 20.5-13-1.7-1.3-4-1.8-6-1.4-.4-1.6-1.5-3-3-3.9l-1.2-.7-.8 1.2c-1 1.5-1.4 3.5-1 5.3-.9.5-2.6 1-4.5 1H12z" />
+      </svg>
+    )
+  }
+
+  if (label === 'Prisma') {
+    return (
+      <svg viewBox="0 0 64 64" aria-hidden="true">
+        <path fill="#0c344b" d="M31 6c1-1.6 3-1.6 4 0l19 32c1 1.7.1 3.9-1.8 4.3l-30 6.6c-2 .4-3.7-1.5-3-3.4l10.5-38.1c.2-.5.4-1 1.3-1.4z" />
+        <path fill="#fff" d="M32 20l9 15-14 3z" />
+      </svg>
+    )
+  }
+
+  if (label === 'Vercel') {
+    return (
+      <svg viewBox="0 0 64 64" aria-hidden="true">
+        <path fill="#fff" d="M32 12 54 50H10z" />
+      </svg>
+    )
+  }
+
+  if (label === 'Telegram API') {
+    return (
+      <svg viewBox="0 0 64 64" aria-hidden="true">
+        <circle cx="32" cy="32" r="26" fill="#26a5e4" />
+        <path fill="#fff" d="M46.5 20.2 41 45.4c0 0-.7 1.9-2.8 1-2.1-.9-11.6-7.7-11.6-7.7-.2-.1-.4-.4-.4-.9.1-.6 1-1.2 1-1.2s16.6-14.8 17.1-15.3c.4-.4.3-.6-.3-.3-.4.2-19.9 12.5-22.1 13.9-.2.1-.7 0-.7 0l-6.9-2.3s-1.1-.4-.2-1.2c.2-.2 30.3-11.5 30.3-11.5s2.3-.9 2.1 1.3z" />
+      </svg>
+    )
+  }
+
+  if (label === 'REST API') {
+    return (
+      <svg viewBox="0 0 64 64" aria-hidden="true">
+        <rect x="6" y="6" width="52" height="52" rx="14" fill="#1f2430" />
+        <path fill="#E7AD43" d="M23 20 12 32l11 12 3.4-3.3L18.8 32l7.6-8.7zm18 0-3.4 3.3L45.2 32l-7.6 8.7L41 44l11-12z" />
+      </svg>
+    )
+  }
+
   return (
     <svg viewBox="0 0 64 64" aria-hidden="true">
       <circle cx="32" cy="32" r="22" fill="rgba(255,255,255,0.16)" />

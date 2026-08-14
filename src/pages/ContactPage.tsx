@@ -1,6 +1,6 @@
 import type { FormEvent } from 'react'
 import { motion, useReducedMotion, type Variants } from 'framer-motion'
-import { Github, Instagram, Linkedin, Mail, Phone, Send } from 'lucide-react'
+import { Facebook, Github, Instagram, Linkedin, Mail, Phone, Send } from 'lucide-react'
 import AnimatedSection from '../components/AnimatedSection'
 import contactBg from '../assets/images/grid_background_hd.webp'
 import { profile } from '../content/siteContent'
@@ -69,6 +69,7 @@ function ContactPage({ contact, contactState, isSending, isSubscribed, onContact
             <motion.a className="contact-row" href={`tel:${profile.phone.replaceAll(' ', '')}`} variants={contactReveal.up}><Phone size={18} />{profile.phone}</motion.a>
             <motion.a className="contact-row" href={profile.linkedin} target="_blank" rel="noreferrer" variants={contactReveal.up}><Linkedin size={18} />LinkedIn</motion.a>
             <motion.a className="contact-row" href={profile.instagram} target="_blank" rel="noreferrer" variants={contactReveal.up}><Instagram size={18} />Instagram</motion.a>
+            <motion.a className="contact-row" href={profile.facebook} target="_blank" rel="noreferrer" variants={contactReveal.up}><Facebook size={18} />Facebook</motion.a>
             <motion.a className="contact-row" href={profile.github} target="_blank" rel="noreferrer" variants={contactReveal.up}><Github size={18} />GitHub</motion.a>
             <motion.a className="contact-row" href={profile.telegram} target="_blank" rel="noreferrer" variants={contactReveal.up}><Send size={18} />Telegram</motion.a>
           </motion.div>
